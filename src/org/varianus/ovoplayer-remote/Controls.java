@@ -14302,6 +14302,7 @@ class jTCPSocketClient {
     	  
           SERVER_IP = _serverIP;          //IP address
           SERVER_PORT = _serverPort;       //port number;
+          Boolean connected = false;
           if (mSocket != null) {
         	  try {
 				mSocket.close();
@@ -14315,13 +14316,15 @@ class jTCPSocketClient {
           try {
               InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
 			  mSocket = new Socket(serverAddr, SERVER_PORT);
+                          connected = true;
 		  } catch (IOException e) {
 			  // TODO Auto-generated catch block
 		      e.printStackTrace();
 		  }
-          
-          controls.pOnTCPSocketClientConnected(pascalObj);         
-          new TCPSocketClientTask().execute();                                    	  
+          if (connected) {
+             new TCPSocketClientTask().execute();                                    	  
+             controls.pOnTCPSocketClientConnected(pascalObj);         
+          }
       }
             
      public void Connect(String _serverIP, int _serverPort, String _login) {    	  
