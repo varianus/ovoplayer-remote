@@ -12,9 +12,9 @@ object Connect: TConnect
   BackgroundColor = colbrDefault
   OnJNIPrompt = ConnectJNIPrompt
   object jPanel1: jPanel
-    Left = 15
+    Left = 8
     Top = 0
-    Width = 297
+    Width = 304
     Height = 363
     MarginLeft = 4
     MarginTop = 4
@@ -30,8 +30,8 @@ object Connect: TConnect
     MaxPinchZoomFactor = 4
     Id = 0
     object jImageView1: jImageView
-      Left = 107
-      Top = 16
+      Left = 28
+      Top = 28
       Width = 48
       Height = 48
       Visible = True
@@ -43,14 +43,12 @@ object Connect: TConnect
       Images = jImageList1
       BackgroundColor = colbrDefault
       ImageScaleType = scaleFitCenter
-      left = 28
-      top = 28
       Id = 0
     end
     object edtIPAddress: jEditText
-      Left = 106
+      Left = 108
       Top = 266
-      Width = 85
+      Width = 87
       Height = 39
       MarginLeft = 5
       MarginTop = 10
@@ -77,14 +75,12 @@ object Connect: TConnect
       WrappingLine = False
       Editable = True
       FontSizeUnit = unitDefault
-      left = 28
-      top = 28
       Id = 9411792
     end
     object bConnect: jButton
-      Left = 106
+      Left = 108
       Top = 319
-      Width = 85
+      Width = 87
       Height = 40
       MarginLeft = 2
       MarginTop = 4
@@ -101,13 +97,11 @@ object Connect: TConnect
       FontSize = 0
       FontSizeUnit = unitDefault
       OnClick = bConnectClick
-      left = 28
-      top = 28
       Id = 179571
     end
     object Message: jTextView
-      Left = 160
-      Top = 268
+      Left = 56
+      Top = 56
       Width = 0
       Height = 3
       MarginLeft = 5
@@ -127,8 +121,6 @@ object Connect: TConnect
       FontSize = 0
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
-      left = 56
-      top = 56
       Id = 0
     end
   end
@@ -149,8 +141,6 @@ object Connect: TConnect
     BackgroundColor = colbrDefault
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
-    left = 28
-    top = 28
     Id = 0
     object bPrev: jImageBtn
       Left = 11
@@ -259,8 +249,8 @@ object Connect: TConnect
       MaxPinchZoomFactor = 4
       Id = 2508822
       object jImageView2: jImageView
-        Left = 28
-        Top = 28
+        Left = 56
+        Top = 56
         Width = 48
         Height = 48
         Visible = True
@@ -272,8 +262,6 @@ object Connect: TConnect
         Images = jImageList1
         BackgroundColor = colbrDefault
         ImageScaleType = scaleFitCenter
-        left = 56
-        top = 56
         Id = 0
       end
       object Album: jTextView
@@ -323,8 +311,6 @@ object Connect: TConnect
         FontSize = 0
         TextTypeFace = tfNormal
         FontSizeUnit = unitDefault
-        left = 56
-        top = 56
         Id = 1749592
       end
       object Artist: jTextView
@@ -350,8 +336,6 @@ object Connect: TConnect
         FontSize = 0
         TextTypeFace = tfNormal
         FontSizeUnit = unitDefault
-        left = 56
-        top = 56
         Id = 0
       end
     end
@@ -379,5 +363,12 @@ object Connect: TConnect
     OnTimer = ConnectTestTimer
     left = 180
     top = 45
+  end
+  object TimerPos: jTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = TimerPosTimer
+    left = 200
+    top = 456
   end
 end

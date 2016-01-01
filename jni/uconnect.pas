@@ -1,7 +1,7 @@
 {Hint: save all files to location: /home/varianus/source/ovoplayer-remote/jni }
 unit UConnect;
 
-{$mode objfpc}
+{$mode Delphi}
 
 interface
 
@@ -15,6 +15,7 @@ type
   { TConnect }
 
   TConnect = class(jForm)
+    TimerPos: jTimer;
     Title: jTextView;
     bConnect: jButton;
     Client: jTCPSocketClient;
@@ -37,12 +38,13 @@ type
     procedure bConnectClick(Sender: TObject);
     procedure ClientConnected(Sender: TObject);
     procedure ClientMessagesReceived(Sender: TObject;
-      messagesReceived: array of pchar);
+      messagesReceived: array of Pchar);
     procedure ConnectJNIPrompt(Sender: TObject);
     procedure ConnectTestTimer(Sender: TObject);
     procedure bPrevClick(Sender: TObject);
     procedure bPlayClick(Sender: TObject);
     procedure bNextClick(Sender: TObject);
+    procedure TimerPosTimer(Sender: TObject);
   private
     RetryCount: integer;
     msg: string;
@@ -93,7 +95,7 @@ begin
   len:= Length(messagesReceived);
   for i:= 0 to len-1 do
     begin
-      s:= StrPas(messagesReceived[i]);
+      s:= strpas(messagesReceived[i]);
       LogDebug('OVOVOVOVO',s);
       HandleServerMessage(s);
     end;
@@ -146,6 +148,14 @@ begin
 
 end;
 
+procedure TConnect.TimerPosTimer(Sender: TObject);
+begin
+  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION));
+  LogDebug('OVO_send',msg);
+  Client.SendMessage(msg);
+
+end;
+
 procedure TConnect.OnConnectResult(Connected: boolean);
 begin
   if not Connected then
@@ -155,13 +165,13 @@ begin
        Message.Text:= 'Connected';
        jPanel2.Visible:=true;
        jPanel1.Visible:=false;
+       Sleep(100);
        msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE));
        LogDebug('OVO_send',msg);
        Client.SendMessage(msg);
        msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
        LogDebug('OVO_send',msg);
        Client.SendMessage(msg);
-
     end;
   Connect.SetEnabled(true);
 end;
@@ -177,6 +187,7 @@ begin
   //album.Text := Tags.AlbumArtist;
 //  edGenre.Caption := Tags.Genre;
   Title.text := Tags.Title;
+  jSeekBar1.Max:= Tags.Duration;
   //meComment.Lines.Clear;
   //meComment.Lines.Add(Tags.Comment);
   //
@@ -197,30 +208,38 @@ var
   r : RExternalCommand;
   tags: TCommonTags;
   s, Data: string;
-  DataSize: integer;
+  CurrPos: integer;
   NewState: TEngineState;
 begin
    r := SplitCommand(sMessage);
    if (r.Category = CATEGORY_INFORMATION) then
-       case r.Command of
-         INFO_METADATA : begin
+       if  r.Command =
+         INFO_METADATA then begin
                            tags := DecodeMetaData(r.Param);
                            TagsToMap(tags);
-                        end;
-         INFO_COVER : begin
+                        end
+       else if r.command =
+         INFO_COVER then begin
                   //      if URIToFilename(r.param,s) then
                   //         image1.Picture.LoadFromFile(s);
-                      end;
+                      end
+       else if r.command =
+         INFO_POSITION then begin
+                          jSeekBar1.Progress:= StrToInt(r.Param);
+                      end
 
-         INFO_ENGINE_STATE :   Begin
+       else if r.command =
+         INFO_ENGINE_STATE then   Begin
                                  NewState:= TEngineState(StrToInt(r.Param));
                                  if NewState = ENGINE_PLAY then
                                    begin
                                       bPlay.ImageUpIdentifier:='media_playback_pause';
                                       bPlay.ImageDownIdentifier:='media_playback_pause';
+                                      TimerPos.Enabled:=true;
                                    end
                                  else
                                    begin
+                                     TimerPos.Enabled:=False;
                                      bPlay.ImageUpIdentifier:='media_playback_start';
                                      bPlay.ImageDownIdentifier:='media_playback_start';
                                   end
@@ -229,7 +248,6 @@ begin
     else
       Title.Text:= 'Got something else';
 
-  end;
   LogDebug('OVO_Get', 'Exit');
 end;
 
