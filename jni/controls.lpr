@@ -5,7 +5,7 @@ library controls;  //[by Lamw: Lazarus Android Module Wizard: 28/12/2015 09:33:2
   
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-  Laz_And_Controls_Events, UConnect, dmClient;
+  Laz_And_Controls_Events, UConnect;
   
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnScreenStyle
