@@ -14291,6 +14291,7 @@ class jTCPSocketClient {
     	
         if (mBufferOut != null && !mBufferOut.checkError()) {
             mBufferOut.print(message);
+            Log.i("OVOVOOVO_JAVA", message);
             mBufferOut.flush();
         }
     }
@@ -14322,7 +14323,14 @@ class jTCPSocketClient {
 		      e.printStackTrace();
 		  }
           if (connected) {
-             new TCPSocketClientTask().execute();                                    	  
+             new TCPSocketClientTask().execute();   
+             try {
+               mBufferOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(mSocket.getOutputStream())), true);
+               mBufferIn = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));              
+	     } catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	       }
              controls.pOnTCPSocketClientConnected(pascalObj);         
           }
       }
@@ -14358,8 +14366,6 @@ class jTCPSocketClient {
               while (mRun) {
                     if ( mSocket!= null && !mSocket.isClosed()) {             		
                         try {                    	
-    						mBufferOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(mSocket.getOutputStream())), true);
-    	                    mBufferIn = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));              
     	                    //in this while the client listens for the messages sent by the server
                             if (mBufferIn != null)   {
                                 char[] charSize = new char[4];
