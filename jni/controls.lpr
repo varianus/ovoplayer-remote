@@ -1358,17 +1358,17 @@ exports
     +'Controls_pOnBluetoothDeviceBondStateChanged',
   pOnBluetoothClientSocketConnected name 'Java_org_varianus_ovoplayer_remote_'
     +'Controls_pOnBluetoothClientSocketConnected',
-  pOnBluetoothClientSocketIncomingData name 'Java_org_varianus_ovoplayer-'
+  pOnBluetoothClientSocketIncomingData name 'Java_org_varianus_ovoplayer_'
     +'remote_Controls_pOnBluetoothClientSocketIncomingData',
-  pOnBluetoothClientSocketDisconnected name 'Java_org_varianus_ovoplayer-'
+  pOnBluetoothClientSocketDisconnected name 'Java_org_varianus_ovoplayer_'
     +'remote_Controls_pOnBluetoothClientSocketDisconnected',
   pOnBluetoothServerSocketConnected name 'Java_org_varianus_ovoplayer_remote_'
     +'Controls_pOnBluetoothServerSocketConnected',
-  pOnBluetoothServerSocketIncomingData name 'Java_org_varianus_ovoplayer-'
+  pOnBluetoothServerSocketIncomingData name 'Java_org_varianus_ovoplayer_'
     +'remote_Controls_pOnBluetoothServerSocketIncomingData',
   pOnBluetoothServerSocketListen name 'Java_org_varianus_ovoplayer_remote_'
     +'Controls_pOnBluetoothServerSocketListen',
-  pOnBluetoothServerSocketAcceptTimeout name 'Java_org_varianus_ovoplayer-'
+  pOnBluetoothServerSocketAcceptTimeout name 'Java_org_varianus_ovoplayer_'
     +'remote_Controls_pOnBluetoothServerSocketAcceptTimeout',
   pOnSpinnerItemSeleceted name 'Java_org_varianus_ovoplayer_remote_Controls_'
     +'pOnSpinnerItemSeleceted',
