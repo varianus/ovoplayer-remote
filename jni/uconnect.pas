@@ -15,6 +15,12 @@ type
   { TConnect }
 
   TConnect = class(jForm)
+    bNext: jImageBtn;
+    bPlay: jImageBtn;
+    bPrev: jImageBtn;
+    jPanel4: jPanel;
+    jSeekBar1: jSeekBar;
+    TVCurrPos: jTextView;
     TimerPos: jTimer;
     Title: jTextView;
     bConnect: jButton;
@@ -22,16 +28,12 @@ type
     ConnectTest: jTimer;
     edtIPAddress: jEditText;
     jActionBarTab1: jActionBarTab;
-    bPrev: jImageBtn;
-    bPlay: jImageBtn;
-    bNext: jImageBtn;
     jImageList1: jImageList;
     jImageView1: jImageView;
     jImageView2: jImageView;
     jPanel1: jPanel;
     jPanel2: jPanel;
     jPanel3: jPanel;
-    jSeekBar1: jSeekBar;
     Album: jTextView;
     Message: jTextView;
     Artist: jTextView;
@@ -44,6 +46,10 @@ type
     procedure bPrevClick(Sender: TObject);
     procedure bPlayClick(Sender: TObject);
     procedure bNextClick(Sender: TObject);
+    procedure jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
+      fromUser: boolean);
+    procedure jSeekBar1StartTrackingTouch(Sender: TObject; progress: integer);
+    procedure jSeekBar1StopTrackingTouch(Sender: TObject; progress: integer);
     procedure TimerPosTimer(Sender: TObject);
   private
     RetryCount: integer;
@@ -96,7 +102,6 @@ begin
   for i:= 0 to len-1 do
     begin
       s:= strpas(messagesReceived[i]);
-      LogDebug('OVOVOVOVO',s);
       HandleServerMessage(s);
     end;
 end;
@@ -148,10 +153,34 @@ begin
 
 end;
 
+procedure TConnect.jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
+  fromUser: boolean);
+begin
+  if fromUser then
+    begin
+      LogDebug('OVO_SEEK',IntToStr(Progress div 1000));
+      msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress div 1000)));
+      Client.SendMessage(msg);
+    end;
+end;
+
+procedure TConnect.jSeekBar1StartTrackingTouch(Sender: TObject;
+  progress: integer);
+begin
+   LogDebug('OVO_LOCK','OFF');
+  TimerPos.Enabled:=false;
+end;
+
+procedure TConnect.jSeekBar1StopTrackingTouch(Sender: TObject; progress: integer
+  );
+begin
+     LogDebug('OVO_LOCK','ON');
+    TimerPos.Enabled:=true;
+end;
+
 procedure TConnect.TimerPosTimer(Sender: TObject);
 begin
   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION));
-  LogDebug('OVO_send',msg);
   Client.SendMessage(msg);
 
 end;
@@ -215,6 +244,7 @@ begin
    if (r.Category = CATEGORY_INFORMATION) then
        if  r.Command =
          INFO_METADATA then begin
+                           LogDebug('OVOVOVOVO',smessage);
                            tags := DecodeMetaData(r.Param);
                            TagsToMap(tags);
                         end
@@ -225,11 +255,15 @@ begin
                       end
        else if r.command =
          INFO_POSITION then begin
-                          jSeekBar1.Progress:= StrToInt(r.Param);
+                          LogDebug('OVOVOVOVO',smessage);
+                          CurrPos:= StrToInt(r.Param);
+                          jSeekBar1.Progress:= CURRPOS;
+                          TVCurrPos.TEXT:= timeToStr(CurrPos / MSecsPerDay) + ' / ' +TimeToStr(jseekbar1.max / MSecsPerDay);
                       end
 
        else if r.command =
          INFO_ENGINE_STATE then   Begin
+                                 LogDebug('OVOVOVOVO',smessage);
                                  NewState:= TEngineState(StrToInt(r.Param));
                                  if NewState = ENGINE_PLAY then
                                    begin
@@ -247,8 +281,6 @@ begin
 
     else
       Title.Text:= 'Got something else';
-
-  LogDebug('OVO_Get', 'Exit');
 end;
 
 

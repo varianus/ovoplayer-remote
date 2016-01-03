@@ -142,94 +142,6 @@ object Connect: TConnect
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
     Id = 0
-    object bPrev: jImageBtn
-      Left = 11
-      Top = 293
-      Width = 48
-      Height = 48
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Visible = True
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpBottom, rpLeft]
-      LayoutParamWidth = lp48px
-      LayoutParamHeight = lp48px
-      BackgroundColor = colbrDefault
-      Enabled = True
-      IndexImageUp = -1
-      IndexImageDown = -1
-      ImageUpIdentifier = 'media_skip_backward'
-      ImageDownIdentifier = 'media_skip_backward'
-      OnClick = bPrevClick
-      Id = 0
-    end
-    object bPlay: jImageBtn
-      Left = 108
-      Top = 293
-      Width = 48
-      Height = 48
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Visible = True
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpBottom, rpCenterHorizontal]
-      LayoutParamWidth = lp48px
-      LayoutParamHeight = lp48px
-      BackgroundColor = colbrDefault
-      Enabled = True
-      IndexImageUp = -1
-      IndexImageDown = -1
-      ImageUpIdentifier = 'media_playback_start'
-      ImageDownIdentifier = 'media_playback_start'
-      OnClick = bPlayClick
-      Id = 0
-    end
-    object bNext: jImageBtn
-      Left = 225
-      Top = 293
-      Width = 48
-      Height = 48
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Visible = True
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpBottom, rpRight]
-      LayoutParamWidth = lp48px
-      LayoutParamHeight = lp48px
-      BackgroundColor = colbrDefault
-      Enabled = True
-      IndexImageUp = -1
-      IndexImageDown = -1
-      ImageUpIdentifier = 'media_skip_forward'
-      ImageDownIdentifier = 'media_skip_forward'
-      OnClick = bNextClick
-      Id = 0
-    end
-    object jSeekBar1: jSeekBar
-      Left = 10
-      Top = 221
-      Width = 278
-      Height = 23
-      MarginLeft = 10
-      MarginTop = 10
-      MarginRight = 10
-      MarginBottom = 10
-      Visible = True
-      Anchor = jPanel3
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpWrapContent
-      Max = 100
-      BackgroundColor = colbrDefault
-      Id = 0
-    end
     object jPanel3: jPanel
       Left = 4
       Top = 4
@@ -266,9 +178,9 @@ object Connect: TConnect
       end
       object Album: jTextView
         Left = 5
-        Top = 178
-        Width = 39
-        Height = 20
+        Top = 180
+        Width = 35
+        Height = 18
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
@@ -283,14 +195,14 @@ object Connect: TConnect
         Enabled = True
         BackgroundColor = colbrDefault
         FontColor = colbrDefault
-        FontSize = 0
+        FontSize = 12
         TextTypeFace = tfNormal
         FontSizeUnit = unitDefault
         Id = 3182856
       end
       object Title: jTextView
         Left = 5
-        Top = 148
+        Top = 150
         Width = 24
         Height = 20
         MarginLeft = 5
@@ -308,16 +220,16 @@ object Connect: TConnect
         Enabled = True
         BackgroundColor = colbrDefault
         FontColor = colbrDefault
-        FontSize = 0
+        FontSize = 14
         TextTypeFace = tfNormal
         FontSizeUnit = unitDefault
         Id = 1749592
       end
       object Artist: jTextView
         Left = 5
-        Top = 118
-        Width = 30
-        Height = 20
+        Top = 122
+        Width = 28
+        Height = 18
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
@@ -333,9 +245,144 @@ object Connect: TConnect
         Enabled = True
         BackgroundColor = colbrDefault
         FontColor = colbrDefault
-        FontSize = 0
+        FontSize = 12
         TextTypeFace = tfNormal
         FontSizeUnit = unitDefault
+        Id = 0
+      end
+    end
+    object jPanel4: jPanel
+      Left = 4
+      Top = 215
+      Width = 296
+      Height = 131
+      MarginLeft = 4
+      MarginTop = 4
+      MarginRight = 4
+      MarginBottom = 4
+      Visible = True
+      Anchor = jPanel3
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpMatchParent
+      LayoutParamHeight = lpTwoFifthOfParent
+      BackgroundColor = colbrDefault
+      MinPinchZoomFactor = 0.25
+      MaxPinchZoomFactor = 4
+      Id = 0
+      object TVCurrPos: jTextView
+        Left = 249
+        Top = 5
+        Width = 42
+        Height = 15
+        MarginLeft = 5
+        MarginTop = 5
+        MarginRight = 5
+        MarginBottom = 5
+        Visible = True
+        PosRelativeToAnchor = []
+        PosRelativeToParent = [rpTop, rpRight]
+        LayoutParamWidth = lpWrapContent
+        LayoutParamHeight = lpWrapContent
+        Text = 'TVCurrPos'
+        Alignment = taLeft
+        Enabled = True
+        BackgroundColor = colbrDefault
+        FontColor = colbrDefault
+        FontSize = 10
+        TextTypeFace = tfNormal
+        FontSizeUnit = unitDefault
+        Id = 1056701
+      end
+      object bPrev: jImageBtn
+        Left = 28
+        Top = 28
+        Width = 48
+        Height = 48
+        MarginLeft = 5
+        MarginTop = 5
+        MarginRight = 5
+        MarginBottom = 5
+        Visible = True
+        PosRelativeToAnchor = []
+        PosRelativeToParent = [rpBottom, rpLeft]
+        LayoutParamWidth = lp48px
+        LayoutParamHeight = lp48px
+        BackgroundColor = colbrDefault
+        Enabled = True
+        IndexImageUp = -1
+        IndexImageDown = -1
+        ImageUpIdentifier = 'media_skip_backward'
+        ImageDownIdentifier = 'media_skip_backward'
+        OnClick = bPrevClick
+        Id = 0
+      end
+      object bPlay: jImageBtn
+        Left = 28
+        Top = 28
+        Width = 48
+        Height = 48
+        MarginLeft = 5
+        MarginTop = 5
+        MarginRight = 5
+        MarginBottom = 5
+        Visible = True
+        PosRelativeToAnchor = []
+        PosRelativeToParent = [rpBottom, rpCenterHorizontal]
+        LayoutParamWidth = lp48px
+        LayoutParamHeight = lp48px
+        BackgroundColor = colbrDefault
+        Enabled = True
+        IndexImageUp = -1
+        IndexImageDown = -1
+        ImageUpIdentifier = 'media_playback_start'
+        ImageDownIdentifier = 'media_playback_start'
+        OnClick = bPlayClick
+        Id = 0
+      end
+      object bNext: jImageBtn
+        Left = 28
+        Top = 28
+        Width = 48
+        Height = 48
+        MarginLeft = 5
+        MarginTop = 5
+        MarginRight = 5
+        MarginBottom = 5
+        Visible = True
+        PosRelativeToAnchor = []
+        PosRelativeToParent = [rpBottom, rpRight]
+        LayoutParamWidth = lp48px
+        LayoutParamHeight = lp48px
+        BackgroundColor = colbrDefault
+        Enabled = True
+        IndexImageUp = -1
+        IndexImageDown = -1
+        ImageUpIdentifier = 'media_skip_forward'
+        ImageDownIdentifier = 'media_skip_forward'
+        OnClick = bNextClick
+        Id = 0
+      end
+      object jSeekBar1: jSeekBar
+        Left = 10
+        Top = 35
+        Width = 266
+        Height = 23
+        MarginLeft = 10
+        MarginTop = 10
+        MarginRight = 10
+        MarginBottom = 10
+        Visible = True
+        Anchor = TVCurrPos
+        PosRelativeToAnchor = [raBelow]
+        PosRelativeToParent = []
+        LayoutParamWidth = lpMatchParent
+        LayoutParamHeight = lpWrapContent
+        Max = 100
+        BackgroundColor = colbrDefault
+        OnProgressChanged = jSeekBar1ProgressChanged
+        OnStartTrackingTouch = jSeekBar1StartTrackingTouch
+        OnStopTrackingTouch = jSeekBar1StopTrackingTouch
         Id = 0
       end
     end
