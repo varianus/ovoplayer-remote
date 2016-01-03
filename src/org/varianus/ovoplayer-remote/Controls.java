@@ -5457,7 +5457,7 @@ viewgroup.addView(this,lparams);
 }
 
 public  void setButton( String fileup , String filedn ) {
-if (bmpUp  != null) { bmpUp.recycle();         }
+//if (bmpUp  != null) { bmpUp.recycle();         }
 bmpUp = BitmapFactory.decodeFile(fileup);
 rect   = new Rect(0,0,bmpUp.getWidth(),bmpUp.getHeight());
 
@@ -5468,14 +5468,14 @@ invalidate();
 }
 
 public  void setButtonUp( String fileup) {
-if (bmpUp  != null) { bmpUp.recycle(); }
+//if (bmpUp  != null) { bmpUp.recycle(); }
 bmpUp = BitmapFactory.decodeFile(fileup);
 rect   = new Rect(0,0,bmpUp.getWidth(),bmpUp.getHeight());
 invalidate();
 }
 
 public  void setButtonDown( String filedn ) {
-if (bmpDn  != null) { bmpDn.recycle();         }
+//if (bmpDn  != null) { bmpDn.recycle();         }
 bmpDn = BitmapFactory.decodeFile(filedn);
 rect   = new Rect(0,0,bmpDn.getWidth(),bmpDn.getHeight());
 invalidate();
@@ -5502,7 +5502,7 @@ private Drawable GetDrawableResourceById(int _resID) {
 }
 
 public  void setButtonUpByRes(String resup) {   // ..res/drawable
-  if (bmpUp  != null) { bmpUp.recycle(); }
+//  if (bmpUp  != null) { bmpUp.recycle();}
   Drawable d = GetDrawableResourceById(GetDrawableResourceId(resup));
   bmpUp = ((BitmapDrawable)d).getBitmap();
   rect   = new Rect(0,0,bmpUp.getWidth(),bmpUp.getHeight());
@@ -5510,7 +5510,7 @@ public  void setButtonUpByRes(String resup) {   // ..res/drawable
 }
 
 public  void setButtonDownByRes(String resdn) {   // ..res/drawable
-  if (bmpDn  != null) { bmpDn.recycle(); }
+ // if (bmpDn  != null) { bmpDn.recycle(); }
    Drawable d = GetDrawableResourceById(GetDrawableResourceId(resdn));
    bmpDn = ((BitmapDrawable)d).getBitmap();
    rect   = new Rect(0,0,bmpDn.getWidth(),bmpDn.getHeight());	 
@@ -14291,9 +14291,9 @@ class jTCPSocketClient {
     	
         if (mBufferOut != null && !mBufferOut.checkError()) {
             mBufferOut.print(message);
-            Log.i("OVOVOOVO_JAVA", message);
             mBufferOut.flush();
         }
+       else { Log.i("OVOVOOVO_JAVA", "BUFFER OUT ERROR");}      
     }
      
     //write others [public] methods code here......
@@ -14379,10 +14379,13 @@ class jTCPSocketClient {
                                    mServerMessage =  String.valueOf(Data);
                                    } 
                                 else 
-                                   { 
+                                   { Log.i("OVOVOOVO_JAVA", "NO_DATA");
+
                                      mRun = false;
                                    }
                                 }
+                          else { Log.i("OVOVOOVO_JAVA", "BUFFER IN ERROR");}      
+
     	                    if (mServerMessage != null )                     	
     	                       	 publishProgress(mServerMessage);
     					} catch (IOException e) {
