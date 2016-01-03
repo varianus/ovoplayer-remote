@@ -23,8 +23,49 @@
     <CustomData Count="1">
       <Item0 Name="LAMW" Value="GUI"/>
     </CustomData>
-    <BuildModes Count="1">
-      <Item1 Name="Default" Default="True"/>
+    <BuildModes Count="2">
+      <Item1 Name="X86" Default="True"/>
+      <Item2 Name="ARM">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="../libs/armeabi-v7a/libcontrols"/>
+          </Target>
+          <SearchPaths>
+            <Libraries Value="../../../Android/android-ndk-r10e/platforms/android-21/arch-arm/usr/lib"/>
+            <OtherUnitFiles Value="../../ovoplayer/trunk/src;../../ovoplayer/trunk/src/ovotag"/>
+            <UnitOutputDirectory Value="../obj/controls"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+              <CStyleMacros Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="arm"/>
+            <TargetOS Value="android"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+            <SmallerCode Value="True"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <StripSymbols Value="True"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-Xd"/>
+          </Other>
+        </CompilerOptions>
+      </Item2>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -56,10 +97,10 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../libs/x86/libcontrols"/>
+      <Filename Value="../libs/armeabi-v7a/libcontrols.so"/>
     </Target>
     <SearchPaths>
-      <Libraries Value="/home/varianus/Android/android-ndk-r10e/platforms/android-21/arch-x86/usr/lib/;/home/varianus/Android/android-ndk-r10e/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-android-linux/4.9/"/>
+      <Libraries Value="/home/varianus/Android/android-ndk-r10e/platforms/android-21/arch-arm/usr/lib;/home/varianus/Android/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/lib/gcc/arm-linux-androideabi/4.9"/>
       <OtherUnitFiles Value="../../ovoplayer/trunk/src;../../ovoplayer/trunk/src/ovotag"/>
       <UnitOutputDirectory Value="../obj/controls"/>
     </SearchPaths>
@@ -71,7 +112,7 @@
     </Parsing>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
-      <TargetCPU Value="i386"/>
+      <TargetCPU Value="arm"/>
       <TargetOS Value="android"/>
       <Optimizations>
         <OptimizationLevel Value="3"/>
@@ -89,7 +130,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-Xd -XPi686-linux-android- -FD/home/varianus/Android/android-ndk-r10e/toolchains/x86-4.9/prebuilt/linux-x86_64/bin"/>
+      <CustomOptions Value="-Xd -CfVFPv3 -CpARMV7A -XParm-linux-androideabi- -FD/home/varianus/Android/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin"/>
     </Other>
   </CompilerOptions>
   <Debugging>
