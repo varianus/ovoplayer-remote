@@ -27,7 +27,6 @@ type
     Client: jTCPSocketClient;
     ConnectTest: jTimer;
     edtIPAddress: jEditText;
-    jActionBarTab1: jActionBarTab;
     jImageList1: jImageList;
     jImageView1: jImageView;
     jImageView2: jImageView;
@@ -55,6 +54,7 @@ type
     RetryCount: integer;
     msg: string;
     CurrState : TEngineState;
+    fSeeking:boolean;
     procedure HandleServerMEssage(smessage: String);
     procedure OnConnectResult(Connected: boolean);
     procedure TagsToMap(Tags: TCommonTags);
@@ -112,6 +112,7 @@ begin
  jPanel2.MatchParent();
  jPanel2.Visible:=false;
  jPanel1.Visible:=true;
+ FSeeking:= False;
 end;
 
 procedure TConnect.ConnectTestTimer(Sender: TObject);
@@ -159,7 +160,7 @@ begin
   if fromUser then
     begin
       LogDebug('OVO_SEEK',IntToStr(Progress div 1000));
-      msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress div 1000)));
+      msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress)));
       Client.SendMessage(msg);
     end;
 end;
@@ -167,14 +168,14 @@ end;
 procedure TConnect.jSeekBar1StartTrackingTouch(Sender: TObject;
   progress: integer);
 begin
-   LogDebug('OVO_LOCK','OFF');
+  FSeeking:= true;
   TimerPos.Enabled:=false;
 end;
 
 procedure TConnect.jSeekBar1StopTrackingTouch(Sender: TObject; progress: integer
   );
 begin
-     LogDebug('OVO_LOCK','ON');
+    FSeeking:= False;
     TimerPos.Enabled:=true;
 end;
 
@@ -253,8 +254,8 @@ begin
                   //      if URIToFilename(r.param,s) then
                   //         image1.Picture.LoadFromFile(s);
                       end
-       else if r.command =
-         INFO_POSITION then begin
+       else if (r.command =
+         INFO_POSITION) and not FSeeking  then begin
                           LogDebug('OVOVOVOVO',smessage);
                           CurrPos:= StrToInt(r.Param);
                           jSeekBar1.Progress:= CURRPOS;
@@ -267,15 +268,15 @@ begin
                                  NewState:= TEngineState(StrToInt(r.Param));
                                  if NewState = ENGINE_PLAY then
                                    begin
-                                      bPlay.ImageUpIdentifier:='media_playback_pause';
-                                      bPlay.ImageDownIdentifier:='media_playback_pause';
+                                      bPlay.ImageUpIdentifier:='ic_pause_white_36dp';
+                                      bPlay.ImageDownIdentifier:='ic_pause_grey600_36dp';
                                       TimerPos.Enabled:=true;
                                    end
                                  else
                                    begin
                                      TimerPos.Enabled:=False;
-                                     bPlay.ImageUpIdentifier:='media_playback_start';
-                                     bPlay.ImageDownIdentifier:='media_playback_start';
+                                     bPlay.ImageUpIdentifier:='ic_play_arrow_white_36dp';
+                                     bPlay.ImageDownIdentifier:='ic_play_arrow_grey600_36dp';
                                   end
                                end
 

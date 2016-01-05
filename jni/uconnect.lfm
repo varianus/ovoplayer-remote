@@ -43,7 +43,7 @@ object Connect: TConnect
       Images = jImageList1
       BackgroundColor = colbrDefault
       ImageScaleType = scaleFitCenter
-      Id = 0
+      Id = 6059150
     end
     object edtIPAddress: jEditText
       Left = 108
@@ -58,7 +58,7 @@ object Connect: TConnect
       Anchor = bConnect
       PosRelativeToAnchor = [raAbove]
       PosRelativeToParent = [rpCenterHorizontal]
-      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = '10.0.2.2'
       Alignment = taLeft
@@ -91,7 +91,7 @@ object Connect: TConnect
       PosRelativeToParent = [rpBottom, rpCenterHorizontal]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'Connect'
+      Text = 'CONNECT'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
@@ -109,7 +109,8 @@ object Connect: TConnect
       MarginRight = 5
       MarginBottom = 5
       Visible = True
-      PosRelativeToAnchor = [raAbove]
+      Anchor = jImageView1
+      PosRelativeToAnchor = [raAbove, raBelow]
       PosRelativeToParent = [rpCenterHorizontal]
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
@@ -178,9 +179,9 @@ object Connect: TConnect
       end
       object Album: jTextView
         Left = 5
-        Top = 180
-        Width = 35
-        Height = 18
+        Top = 178
+        Width = 39
+        Height = 20
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
@@ -195,16 +196,16 @@ object Connect: TConnect
         Enabled = True
         BackgroundColor = colbrDefault
         FontColor = colbrDefault
-        FontSize = 12
+        FontSize = 14
         TextTypeFace = tfNormal
-        FontSizeUnit = unitDefault
+        FontSizeUnit = unitScaledPixel
         Id = 3182856
       end
       object Title: jTextView
         Left = 5
-        Top = 150
-        Width = 24
-        Height = 20
+        Top = 146
+        Width = 30
+        Height = 22
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
@@ -220,16 +221,16 @@ object Connect: TConnect
         Enabled = True
         BackgroundColor = colbrDefault
         FontColor = colbrDefault
-        FontSize = 14
+        FontSize = 16
         TextTypeFace = tfNormal
-        FontSizeUnit = unitDefault
+        FontSizeUnit = unitScaledPixel
         Id = 1749592
       end
       object Artist: jTextView
         Left = 5
-        Top = 122
-        Width = 28
-        Height = 18
+        Top = 116
+        Width = 30
+        Height = 20
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
@@ -245,9 +246,9 @@ object Connect: TConnect
         Enabled = True
         BackgroundColor = colbrDefault
         FontColor = colbrDefault
-        FontSize = 12
+        FontSize = 14
         TextTypeFace = tfNormal
-        FontSizeUnit = unitDefault
+        FontSizeUnit = unitScaledPixel
         Id = 0
       end
     end
@@ -291,7 +292,7 @@ object Connect: TConnect
         FontColor = colbrDefault
         FontSize = 10
         TextTypeFace = tfNormal
-        FontSizeUnit = unitDefault
+        FontSizeUnit = unitScaledPixel
         Id = 1056701
       end
       object bPrev: jImageBtn
@@ -312,8 +313,8 @@ object Connect: TConnect
         Enabled = True
         IndexImageUp = -1
         IndexImageDown = -1
-        ImageUpIdentifier = 'media_skip_backward'
-        ImageDownIdentifier = 'media_skip_backward'
+        ImageUpIdentifier = 'ic_skip_previous_white_36dp'
+        ImageDownIdentifier = 'ic_skip_previous_grey600_36dp'
         OnClick = bPrevClick
         Id = 0
       end
@@ -335,8 +336,8 @@ object Connect: TConnect
         Enabled = True
         IndexImageUp = -1
         IndexImageDown = -1
-        ImageUpIdentifier = 'media_playback_start'
-        ImageDownIdentifier = 'media_playback_start'
+        ImageUpIdentifier = 'ic_play_arrow_white_36dp'
+        ImageDownIdentifier = 'ic_play_arrow_grey600_36dp'
         OnClick = bPlayClick
         Id = 0
       end
@@ -358,8 +359,8 @@ object Connect: TConnect
         Enabled = True
         IndexImageUp = -1
         IndexImageDown = -1
-        ImageUpIdentifier = 'media_skip_forward'
-        ImageDownIdentifier = 'media_skip_forward'
+        ImageUpIdentifier = 'ic_skip_next_white_36dp'
+        ImageDownIdentifier = 'ic_skip_next_grey600_36dp'
         OnClick = bNextClick
         Id = 0
       end
@@ -386,10 +387,6 @@ object Connect: TConnect
         Id = 0
       end
     end
-  end
-  object jActionBarTab1: jActionBarTab
-    left = 122
-    top = 24
   end
   object jImageList1: jImageList
     Images.Strings = (
