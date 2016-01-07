@@ -7,9 +7,11 @@ object Connect: TConnect
   MarginTop = 0
   MarginRight = 0
   MarginBottom = 0
+  OnDestroy = ConnectDestroy
   Text = 'Connect'
   ActivityMode = actMain
   BackgroundColor = colbrDefault
+  OnRotate = ConnectRotate
   OnJNIPrompt = ConnectJNIPrompt
   object jPanel1: jPanel
     Left = 8
@@ -62,7 +64,7 @@ object Connect: TConnect
       LayoutParamHeight = lpWrapContent
       Text = '10.0.2.2'
       Alignment = taLeft
-      InputTypeEx = itxPhone
+      InputTypeEx = itxText
       MaxTextLength = -1
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
@@ -147,17 +149,17 @@ object Connect: TConnect
       Left = 4
       Top = 4
       Width = 296
-      Height = 203
+      Height = 167
       MarginLeft = 4
       MarginTop = 4
       MarginRight = 4
       MarginBottom = 4
       Visible = True
       PosRelativeToAnchor = []
-      PosRelativeToParent = [rpTop]
+      PosRelativeToParent = [rpTop, rpLeft]
       LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpThreeFifthOfParent
-      BackgroundColor = colbrDefault
+      LayoutParamHeight = lpHalfOfParent
+      BackgroundColor = colbrPurple
       MinPinchZoomFactor = 0.25
       MaxPinchZoomFactor = 4
       Id = 2508822
@@ -168,7 +170,7 @@ object Connect: TConnect
         Height = 48
         Visible = True
         PosRelativeToAnchor = []
-        PosRelativeToParent = [rpTop]
+        PosRelativeToParent = [rpTop, rpLeft]
         LayoutParamWidth = lpMatchParent
         LayoutParamHeight = lpHalfOfParent
         ImageIndex = 0
@@ -179,7 +181,7 @@ object Connect: TConnect
       end
       object Album: jTextView
         Left = 5
-        Top = 178
+        Top = 142
         Width = 39
         Height = 20
         MarginLeft = 5
@@ -188,7 +190,7 @@ object Connect: TConnect
         MarginBottom = 5
         Visible = True
         PosRelativeToAnchor = []
-        PosRelativeToParent = [rpBottom]
+        PosRelativeToParent = [rpBottom, rpLeft]
         LayoutParamWidth = lpWrapContent
         LayoutParamHeight = lpWrapContent
         Text = 'Album'
@@ -203,7 +205,7 @@ object Connect: TConnect
       end
       object Title: jTextView
         Left = 5
-        Top = 146
+        Top = 110
         Width = 30
         Height = 22
         MarginLeft = 5
@@ -228,7 +230,7 @@ object Connect: TConnect
       end
       object Artist: jTextView
         Left = 5
-        Top = 116
+        Top = 80
         Width = 30
         Height = 20
         MarginLeft = 5
@@ -254,9 +256,9 @@ object Connect: TConnect
     end
     object jPanel4: jPanel
       Left = 4
-      Top = 215
+      Top = 179
       Width = 296
-      Height = 131
+      Height = 167
       MarginLeft = 4
       MarginTop = 4
       MarginRight = 4
@@ -266,8 +268,8 @@ object Connect: TConnect
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = []
       LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpTwoFifthOfParent
-      BackgroundColor = colbrDefault
+      LayoutParamHeight = lpHalfOfParent
+      BackgroundColor = colbrMaroon
       MinPinchZoomFactor = 0.25
       MaxPinchZoomFactor = 4
       Id = 0
@@ -414,5 +416,10 @@ object Connect: TConnect
     OnTimer = TimerPosTimer
     left = 200
     top = 456
+  end
+  object Pref: jPreferences
+    IsShared = False
+    left = 238
+    top = 174
   end
 end

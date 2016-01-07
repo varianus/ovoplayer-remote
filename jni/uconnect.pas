@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, Laz_And_Controls,
   Laz_And_Controls_Events, AndroidWidget, intentmanager, actionbartab,
-  tcpsocketclient, seekbar, basetag, basetypes;
+  tcpsocketclient, seekbar, basetag, basetypes, preferences;
 
 type
 
@@ -19,6 +19,7 @@ type
     bPlay: jImageBtn;
     bPrev: jImageBtn;
     jPanel4: jPanel;
+    Pref: jPreferences;
     jSeekBar1: jSeekBar;
     TVCurrPos: jTextView;
     TimerPos: jTimer;
@@ -40,7 +41,10 @@ type
     procedure ClientConnected(Sender: TObject);
     procedure ClientMessagesReceived(Sender: TObject;
       messagesReceived: array of Pchar);
+    procedure ConnectDestroy(Sender: TObject);
     procedure ConnectJNIPrompt(Sender: TObject);
+    procedure ConnectRotate(Sender: TObject; rotate: integer;
+      var rstRotate: integer);
     procedure ConnectTestTimer(Sender: TObject);
     procedure bPrevClick(Sender: TObject);
     procedure bPlayClick(Sender: TObject);
@@ -76,7 +80,7 @@ uses
 
 procedure TConnect.bConnectClick(Sender: TObject);
 begin
-
+  Pref.setStringData('LastAddress',edtIPAddress.Text);
   Message.Text:='Connecting ....';
   Connect.SetEnabled(False);
 
@@ -86,7 +90,6 @@ end;
 
 procedure TConnect.ClientConnected(Sender: TObject);
 begin
-  LogDebug('OVOVOVOVO','Connected');
   ConnectTest.Enabled:=False;
   OnConnectResult(true);
 end;
@@ -106,26 +109,61 @@ begin
     end;
 end;
 
+procedure TConnect.ConnectDestroy(Sender: TObject);
+begin
+ Pref.setStringData('LastAddress',edtIPAddress.Text);
+end;
+
 procedure TConnect.ConnectJNIPrompt(Sender: TObject);
 begin
- jPanel1.MatchParent();
- jPanel2.MatchParent();
+ jPanel1.LayoutParamWidth:=lpMatchParent;
+ jPanel1.LayoutParamHeight:=lpMatchParent;
  jPanel2.Visible:=false;
  jPanel1.Visible:=true;
+ edtIPAddress.text := Pref.GetStringData('LastAddress','10.0.2.2');
  FSeeking:= False;
+end;
+
+procedure TConnect.ConnectRotate(Sender: TObject; rotate: integer;
+  var rstRotate: integer);
+begin
+ jPanel2.LayoutParamWidth:=lpMatchParent;
+ jPanel2.LayoutParamHeight:=lpMatchParent;
+
+  //if rotate = 2 then // landscape
+  //  begin
+  //    jPanel2.MatchParent();
+  //    jpanel3.LayoutParamHeight:=lpMatchParent;
+  //    jPanel3.LayoutParamWidth:= lpHalfOfParent;
+  //    jpanel4.LayoutParamHeight:=lpMatchParent;
+  //    jPanel4.LayoutParamWidth:= lpHalfOfParent;
+  //    jPanel4.PosRelativeToAnchor:=[raToRightOf];
+  //  end;
+  //
+  //if rotate = 1 then // landscape
+  //  begin
+  //    jPanel2.MatchParent();
+  //    jpanel3.LayoutParamHeight:=lpThreeFifthOfParent;
+  //    jPanel3.LayoutParamWidth:= lpMatchParent;
+  //    jpanel4.LayoutParamHeight:=lpTwoFifthOfParent;
+  //    jPanel4.LayoutParamWidth:= lpMatchParent;
+  //    jPanel4.PosRelativeToAnchor:=[raBelow];
+  //  end;
+  //
+
+ self.UpdateLayout;
+
 end;
 
 procedure TConnect.ConnectTestTimer(Sender: TObject);
 begin
     if RetryCount > 4 then
     begin
-      LogDebug('OVOVOVOVO','Done');
       ConnectTest.Enabled:=false;
       OnConnectResult(false);
     end
   else
     begin
-      LogDebug('OVOVOVOVO','retry');
       Inc(retryCount);
     end;
 end;
@@ -133,7 +171,6 @@ end;
 procedure TConnect.bPrevClick(Sender: TObject);
 begin
   msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PREVIOUS));
-  LogDebug('OVO_send',msg);
   Client.SendMessage(msg);
 end;
 
@@ -141,7 +178,7 @@ procedure TConnect.bPlayClick(Sender: TObject);
 
 begin
   msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAYPAUSE));
-  LogDebug('OVO_send',msg);
+
   Client.SendMessage(msg);
 
 end;
@@ -149,7 +186,6 @@ end;
 procedure TConnect.bNextClick(Sender: TObject);
 begin
   msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_NEXT));
-  LogDebug('OVO_send',msg);
   Client.SendMessage(msg);
 
 end;
@@ -159,7 +195,6 @@ procedure TConnect.jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
 begin
   if fromUser then
     begin
-      LogDebug('OVO_SEEK',IntToStr(Progress div 1000));
       msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress)));
       Client.SendMessage(msg);
     end;
@@ -194,13 +229,14 @@ begin
     begin
        Message.Text:= 'Connected';
        jPanel2.Visible:=true;
+       jPanel2.LayoutParamWidth:=lpMatchParent;
+       jPanel2.LayoutParamHeight:=lpMatchParent;
+
        jPanel1.Visible:=false;
        Sleep(100);
        msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE));
-       LogDebug('OVO_send',msg);
        Client.SendMessage(msg);
        msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
-       LogDebug('OVO_send',msg);
        Client.SendMessage(msg);
     end;
   Connect.SetEnabled(true);
@@ -245,26 +281,26 @@ begin
    if (r.Category = CATEGORY_INFORMATION) then
        if  r.Command =
          INFO_METADATA then begin
-                           LogDebug('OVOVOVOVO',smessage);
-                           tags := DecodeMetaData(r.Param);
-                           TagsToMap(tags);
-                        end
+                         tags := DecodeMetaData(r.Param);
+                         TagsToMap(tags);
+                       end
        else if r.command =
          INFO_COVER then begin
                   //      if URIToFilename(r.param,s) then
                   //         image1.Picture.LoadFromFile(s);
-                      end
+                     end
        else if (r.command =
-         INFO_POSITION) and not FSeeking  then begin
-                          LogDebug('OVOVOVOVO',smessage);
-                          CurrPos:= StrToInt(r.Param);
-                          jSeekBar1.Progress:= CURRPOS;
-                          TVCurrPos.TEXT:= timeToStr(CurrPos / MSecsPerDay) + ' / ' +TimeToStr(jseekbar1.max / MSecsPerDay);
-                      end
+         INFO_POSITION)  then begin
+                          if not FSeeking then
+                            begin
+                             CurrPos:= StrToInt(r.Param);
+                             jSeekBar1.Progress:= CURRPOS;
+                             TVCurrPos.TEXT:= timeToStr(CurrPos / MSecsPerDay) + ' / ' +TimeToStr(jseekbar1.max / MSecsPerDay);
+                           end
+                         end
 
        else if r.command =
          INFO_ENGINE_STATE then   Begin
-                                 LogDebug('OVOVOVOVO',smessage);
                                  NewState:= TEngineState(StrToInt(r.Param));
                                  if NewState = ENGINE_PLAY then
                                    begin
@@ -287,11 +323,9 @@ end;
 
 function TConnect.TryConnect(Host: string; Port: integer): boolean;
 begin
-  LogDebug('OVOVOVOVO','->Connect');
   RetryCount := 0;
   ConnectTest.Enabled:=true;
   Client.ConnectAsync(Host, Port);
-  LogDebug('OVOVOVOVO','<-Connect');
 
 end;
 
