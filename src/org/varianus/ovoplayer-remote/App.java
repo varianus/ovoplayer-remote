@@ -109,7 +109,7 @@ public class App extends Activity {
     public    void onConfigurationChanged(Configuration newConfig) {
     	super.onConfigurationChanged(newConfig);
     	controls.jAppOnRotate(newConfig.orientation);
-    	controls.jAppOnConfigurationChanged();
+    	//controls.jAppOnConfigurationChanged();
     }	   	
  
     @Override
