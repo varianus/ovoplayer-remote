@@ -5,7 +5,7 @@ library controls;  //[by Lamw: Lazarus Android Module Wizard: 28/12/2015 09:33:2
   
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-  Laz_And_Controls_Events, UConnect;
+  Laz_And_Controls_Events, UConnect, uplayer, ubackend;
   
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnScreenStyle
@@ -18,7 +18,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnCreate
   Signature: (Landroid/content/Context;Landroid/widget/RelativeLayout;)V }
-procedure pAppOnCreate(PEnv: PJNIEnv; this: JObject; context: JObject; 
+procedure pAppOnCreate(PEnv: PJNIEnv; this: JObject; context: JObject;
   layout: JObject); cdecl;
 begin
   gApp.Init(PEnv, this, context, layout); Connect.Init(gApp);
@@ -107,7 +107,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnActivityResult
   Signature: (IILandroid/content/Intent;)V }
-procedure pAppOnActivityResult(PEnv: PJNIEnv; this: JObject; requestCode: JInt; 
+procedure pAppOnActivityResult(PEnv: PJNIEnv; this: JObject; requestCode: JInt;
   resultCode: JInt; data: JObject); cdecl;
 begin
   Java_Event_pAppOnActivityResult(PEnv, this, requestCode, resultCode, data);
@@ -116,7 +116,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnCreateOptionsMenu
   Signature: (Landroid/view/Menu;)V }
-procedure pAppOnCreateOptionsMenu(PEnv: PJNIEnv; this: JObject; menu: JObject); 
+procedure pAppOnCreateOptionsMenu(PEnv: PJNIEnv; this: JObject; menu: JObject);
   cdecl;
 begin
   Java_Event_pAppOnCreateOptionsMenu(PEnv, this, menu);
@@ -125,18 +125,18 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnClickOptionMenuItem
   Signature: (Landroid/view/MenuItem;ILjava/lang/String;Z)V }
-procedure pAppOnClickOptionMenuItem(PEnv: PJNIEnv; this: JObject; 
-  menuItem: JObject; itemID: JInt; itemCaption: JString; checked: JBoolean); 
+procedure pAppOnClickOptionMenuItem(PEnv: PJNIEnv; this: JObject;
+  menuItem: JObject; itemID: JInt; itemCaption: JString; checked: JBoolean);
   cdecl;
 begin
-  Java_Event_pAppOnClickOptionMenuItem(PEnv, this, menuItem, itemID, 
+  Java_Event_pAppOnClickOptionMenuItem(PEnv, this, menuItem, itemID,
     itemCaption, Boolean(checked));
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnPrepareOptionsMenu
   Signature: (Landroid/view/Menu;I)Z }
-function pAppOnPrepareOptionsMenu(PEnv: PJNIEnv; this: JObject; menu: JObject; 
+function pAppOnPrepareOptionsMenu(PEnv: PJNIEnv; this: JObject; menu: JObject;
   menuSize: JInt): JBoolean; cdecl;
 begin
   Result:=Java_Event_pAppOnPrepareOptionsMenu(PEnv, this, menu, menuSize);
@@ -145,17 +145,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnPrepareOptionsMenuItem
   Signature: (Landroid/view/Menu;Landroid/view/MenuItem;I)Z }
-function pAppOnPrepareOptionsMenuItem(PEnv: PJNIEnv; this: JObject; 
+function pAppOnPrepareOptionsMenuItem(PEnv: PJNIEnv; this: JObject;
   menu: JObject; menuItem: JObject; itemIndex: JInt): JBoolean; cdecl;
 begin
-  Result:=Java_Event_pAppOnPrepareOptionsMenuItem(PEnv, this, menu, menuItem, 
+  Result:=Java_Event_pAppOnPrepareOptionsMenuItem(PEnv, this, menu, menuItem,
     itemIndex);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnCreateContextMenu
   Signature: (Landroid/view/ContextMenu;)V }
-procedure pAppOnCreateContextMenu(PEnv: PJNIEnv; this: JObject; menu: JObject); 
+procedure pAppOnCreateContextMenu(PEnv: PJNIEnv; this: JObject; menu: JObject);
   cdecl;
 begin
   Java_Event_pAppOnCreateContextMenu(PEnv, this, menu);
@@ -164,18 +164,18 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnClickContextMenuItem
   Signature: (Landroid/view/MenuItem;ILjava/lang/String;Z)V }
-procedure pAppOnClickContextMenuItem(PEnv: PJNIEnv; this: JObject; 
-  menuItem: JObject; itemID: JInt; itemCaption: JString; checked: JBoolean); 
+procedure pAppOnClickContextMenuItem(PEnv: PJNIEnv; this: JObject;
+  menuItem: JObject; itemID: JInt; itemCaption: JString; checked: JBoolean);
   cdecl;
 begin
-  Java_Event_pAppOnClickContextMenuItem(PEnv, this, menuItem, itemID, 
+  Java_Event_pAppOnClickContextMenuItem(PEnv, this, menuItem, itemID,
     itemCaption, Boolean(checked));
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnClick
   Signature: (JI)V }
-procedure pOnClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt); 
+procedure pOnClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt);
   cdecl;
 begin
   Java_Event_pOnClick(PEnv, this, TObject(pasobj), value);
@@ -184,7 +184,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnChange
   Signature: (JLjava/lang/String;I)V }
-procedure pOnChange(PEnv: PJNIEnv; this: JObject; pasobj: JLong; txt: JString; 
+procedure pOnChange(PEnv: PJNIEnv; this: JObject; pasobj: JLong; txt: JString;
   count: JInt); cdecl;
 begin
   Java_Event_pOnChange(PEnv, this, TObject(pasobj), txt, count);
@@ -193,7 +193,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnChanged
   Signature: (JLjava/lang/String;I)V }
-procedure pOnChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong; txt: JString; 
+procedure pOnChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong; txt: JString;
   count: JInt); cdecl;
 begin
   Java_Event_pOnChanged(PEnv, this, TObject(pasobj), txt, count);
@@ -227,7 +227,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnTouch
   Signature: (JIIFFFF)V }
-procedure pOnTouch(PEnv: PJNIEnv; this: JObject; pasobj: JLong; act: JInt; 
+procedure pOnTouch(PEnv: PJNIEnv; this: JObject; pasobj: JLong; act: JInt;
   cnt: JInt; x1: JFloat; y1: JFloat; x2: JFloat; y2: JFloat); cdecl;
 begin
   Java_Event_pOnTouch(PEnv, this, TObject(pasobj), act, cnt, x1, y1, x2, y2);
@@ -236,7 +236,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnGLRenderer
   Signature: (JIII)V }
-procedure pOnGLRenderer(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnGLRenderer(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   EventType: JInt; w: JInt; h: JInt); cdecl;
 begin
   Java_Event_pOnGLRenderer(PEnv, this, TObject(pasobj), EventType, w, h);
@@ -253,30 +253,30 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnWebViewStatus
   Signature: (JILjava/lang/String;)I }
-function pOnWebViewStatus(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+function pOnWebViewStatus(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   EventType: JInt; url: JString): JInt; cdecl;
 begin
-  Result:=Java_Event_pOnWebViewStatus(PEnv, this, TObject(pasobj), EventType, 
+  Result:=Java_Event_pOnWebViewStatus(PEnv, this, TObject(pasobj), EventType,
     url);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnAsyncEventDoInBackground
   Signature: (JI)Z }
-function pOnAsyncEventDoInBackground(PEnv: PJNIEnv; this: JObject; 
+function pOnAsyncEventDoInBackground(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; progress: JInt): JBoolean; cdecl;
 begin
-  Result:=Java_Event_pOnAsyncEventDoInBackground(PEnv, this, TObject(pasobj), 
+  Result:=Java_Event_pOnAsyncEventDoInBackground(PEnv, this, TObject(pasobj),
     progress);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnAsyncEventProgressUpdate
   Signature: (JI)I }
-function pOnAsyncEventProgressUpdate(PEnv: PJNIEnv; this: JObject; 
+function pOnAsyncEventProgressUpdate(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; progress: JInt): JInt; cdecl;
 begin
-  Result:=Java_Event_pOnAsyncEventProgressUpdate(PEnv, this, TObject(pasobj), 
+  Result:=Java_Event_pOnAsyncEventProgressUpdate(PEnv, this, TObject(pasobj),
     progress);
 end;
 
@@ -292,7 +292,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnAsyncEventPostExecute
   Signature: (JI)V }
-procedure pOnAsyncEventPostExecute(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnAsyncEventPostExecute(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   progress: JInt); cdecl;
 begin
   Java_Event_pOnAsyncEventPostExecute(PEnv, this, TObject(pasobj), progress);
@@ -301,7 +301,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnClickWidgetItem
   Signature: (JIZ)V }
-procedure pOnClickWidgetItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnClickWidgetItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   position: JInt; checked: JBoolean); cdecl;
 begin
   Java_Event_pOnClickWidgetItem(PEnv, this, TObject(pasobj), position, Boolean(
@@ -311,7 +311,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnClickCaptionItem
   Signature: (JILjava/lang/String;)V }
-procedure pOnClickCaptionItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnClickCaptionItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   position: JInt; caption: JString); cdecl;
 begin
   Java_Event_pOnClickCaptionItem(PEnv, this, TObject(pasobj), position, caption
@@ -321,17 +321,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnListViewLongClickCaptionItem
   Signature: (JILjava/lang/String;)V }
-procedure pOnListViewLongClickCaptionItem(PEnv: PJNIEnv; this: JObject; 
+procedure pOnListViewLongClickCaptionItem(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; position: JInt; caption: JString); cdecl;
 begin
-  Java_Event_pOnListViewLongClickCaptionItem(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnListViewLongClickCaptionItem(PEnv, this, TObject(pasobj),
     position, caption);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnListViewDrawItemCaptionColor
   Signature: (JILjava/lang/String;)I }
-function pOnListViewDrawItemCaptionColor(PEnv: PJNIEnv; this: JObject; 
+function pOnListViewDrawItemCaptionColor(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; position: JInt; caption: JString): JInt; cdecl;
 begin
   Result:=Java_Event_pOnListViewDrawItemCaptionColor(PEnv, this, TObject(pasobj
@@ -341,17 +341,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnListViewDrawItemBitmap
   Signature: (JILjava/lang/String;)Landroid/graphics/Bitmap; }
-function pOnListViewDrawItemBitmap(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+function pOnListViewDrawItemBitmap(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   position: JInt; caption: JString): JObject; cdecl;
 begin
-  Result:=Java_Event_pOnListViewDrawItemBitmap(PEnv, this, TObject(pasobj), 
+  Result:=Java_Event_pOnListViewDrawItemBitmap(PEnv, this, TObject(pasobj),
     position, caption);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothEnabled
   Signature: (J)V }
-procedure pOnBluetoothEnabled(PEnv: PJNIEnv; this: JObject; pasobj: JLong); 
+procedure pOnBluetoothEnabled(PEnv: PJNIEnv; this: JObject; pasobj: JLong);
   cdecl;
 begin
   Java_Event_pOnBluetoothEnabled(PEnv, this, TObject(pasobj));
@@ -360,7 +360,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothDisabled
   Signature: (J)V }
-procedure pOnBluetoothDisabled(PEnv: PJNIEnv; this: JObject; pasobj: JLong); 
+procedure pOnBluetoothDisabled(PEnv: PJNIEnv; this: JObject; pasobj: JLong);
   cdecl;
 begin
   Java_Event_pOnBluetoothDisabled(PEnv, this, TObject(pasobj));
@@ -369,17 +369,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothDeviceFound
   Signature: (JLjava/lang/String;Ljava/lang/String;)V }
-procedure pOnBluetoothDeviceFound(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnBluetoothDeviceFound(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   deviceName: JString; deviceAddress: JString); cdecl;
 begin
-  Java_Event_pOnBluetoothDeviceFound(PEnv, this, TObject(pasobj), deviceName, 
+  Java_Event_pOnBluetoothDeviceFound(PEnv, this, TObject(pasobj), deviceName,
     deviceAddress);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothDiscoveryStarted
   Signature: (J)V }
-procedure pOnBluetoothDiscoveryStarted(PEnv: PJNIEnv; this: JObject; 
+procedure pOnBluetoothDiscoveryStarted(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong); cdecl;
 begin
   Java_Event_pOnBluetoothDiscoveryStarted(PEnv, this, TObject(pasobj));
@@ -388,49 +388,49 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothDiscoveryFinished
   Signature: (JII)V }
-procedure pOnBluetoothDiscoveryFinished(PEnv: PJNIEnv; this: JObject; 
+procedure pOnBluetoothDiscoveryFinished(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; countFoundedDevices: JInt; countPairedDevices: JInt); cdecl;
 begin
-  Java_Event_pOnBluetoothDiscoveryFinished(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnBluetoothDiscoveryFinished(PEnv, this, TObject(pasobj),
     countFoundedDevices, countPairedDevices);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothDeviceBondStateChanged
   Signature: (JILjava/lang/String;Ljava/lang/String;)V }
-procedure pOnBluetoothDeviceBondStateChanged(PEnv: PJNIEnv; this: JObject; 
-  pasobj: JLong; state: JInt; deviceName: JString; deviceAddress: JString); 
+procedure pOnBluetoothDeviceBondStateChanged(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; state: JInt; deviceName: JString; deviceAddress: JString);
   cdecl;
 begin
-  Java_Event_pOnBluetoothDeviceBondStateChanged(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnBluetoothDeviceBondStateChanged(PEnv, this, TObject(pasobj),
     state, deviceName, deviceAddress);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothClientSocketConnected
   Signature: (JLjava/lang/String;Ljava/lang/String;)V }
-procedure pOnBluetoothClientSocketConnected(PEnv: PJNIEnv; this: JObject; 
+procedure pOnBluetoothClientSocketConnected(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; deviceName: JString; deviceAddress: JString); cdecl;
 begin
-  Java_Event_pOnBluetoothClientSocketConnected(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnBluetoothClientSocketConnected(PEnv, this, TObject(pasobj),
     deviceName, deviceAddress);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothClientSocketIncomingData
   Signature: (J[B[B)V }
-procedure pOnBluetoothClientSocketIncomingData(PEnv: PJNIEnv; this: JObject; 
-  pasobj: JLong; byteArrayContent: JByteArray; byteArrayHeader: JByteArray); 
+procedure pOnBluetoothClientSocketIncomingData(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; byteArrayContent: JByteArray; byteArrayHeader: JByteArray);
   cdecl;
 begin
-  Java_Event_pOnBluetoothClientSocketIncomingData(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnBluetoothClientSocketIncomingData(PEnv, this, TObject(pasobj),
     byteArrayContent, byteArrayHeader);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothClientSocketDisconnected
   Signature: (J)V }
-procedure pOnBluetoothClientSocketDisconnected(PEnv: PJNIEnv; this: JObject; 
+procedure pOnBluetoothClientSocketDisconnected(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong); cdecl;
 begin
   Java_Event_pOnBluetoothClientSocketDisconnected(PEnv, this, TObject(pasobj));
@@ -439,7 +439,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothServerSocketConnected
   Signature: (JLjava/lang/String;Ljava/lang/String;)Z }
-function pOnBluetoothServerSocketConnected(PEnv: PJNIEnv; this: JObject; 
+function pOnBluetoothServerSocketConnected(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; deviceName: JString; deviceAddress: JString): JBoolean; cdecl;
 begin
   Result:=Java_Event_pOnBluetoothServerSocketConnected(PEnv, this, TObject(
@@ -449,7 +449,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothServerSocketIncomingData
   Signature: (J[B[B)Z }
-function pOnBluetoothServerSocketIncomingData(PEnv: PJNIEnv; this: JObject; 
+function pOnBluetoothServerSocketIncomingData(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; byteArrayContent: JByteArray; byteArrayHeader: JByteArray
   ): JBoolean; cdecl;
 begin
@@ -460,17 +460,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothServerSocketListen
   Signature: (JLjava/lang/String;Ljava/lang/String;)V }
-procedure pOnBluetoothServerSocketListen(PEnv: PJNIEnv; this: JObject; 
+procedure pOnBluetoothServerSocketListen(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; serverName: JString; strUUID: JString); cdecl;
 begin
-  Java_Event_pOnBluetoothServerSocketListen(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnBluetoothServerSocketListen(PEnv, this, TObject(pasobj),
     serverName, strUUID);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBluetoothServerSocketAcceptTimeout
   Signature: (J)V }
-procedure pOnBluetoothServerSocketAcceptTimeout(PEnv: PJNIEnv; this: JObject; 
+procedure pOnBluetoothServerSocketAcceptTimeout(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong); cdecl;
 begin
   Java_Event_pOnBluetoothServerSocketAcceptTimeout(PEnv, this, TObject(pasobj));
@@ -479,38 +479,38 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSpinnerItemSeleceted
   Signature: (JILjava/lang/String;)V }
-procedure pOnSpinnerItemSeleceted(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnSpinnerItemSeleceted(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   position: JInt; caption: JString); cdecl;
 begin
-  Java_Event_pOnSpinnerItemSeleceted(PEnv, this, TObject(pasobj), position, 
+  Java_Event_pOnSpinnerItemSeleceted(PEnv, this, TObject(pasobj), position,
     caption);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnLocationChanged
   Signature: (JDDDLjava/lang/String;)V }
-procedure pOnLocationChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
-  latitude: JDouble; longitude: JDouble; altitude: JDouble; address: JString); 
+procedure pOnLocationChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  latitude: JDouble; longitude: JDouble; altitude: JDouble; address: JString);
   cdecl;
 begin
-  Java_Event_pOnLocationChanged(PEnv, this, TObject(pasobj), latitude, 
+  Java_Event_pOnLocationChanged(PEnv, this, TObject(pasobj), latitude,
     longitude, altitude, address);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnLocationStatusChanged
   Signature: (JILjava/lang/String;Ljava/lang/String;)V }
-procedure pOnLocationStatusChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnLocationStatusChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   status: JInt; provider: JString; msgStatus: JString); cdecl;
 begin
-  Java_Event_pOnLocationStatusChanged(PEnv, this, TObject(pasobj), status, 
+  Java_Event_pOnLocationStatusChanged(PEnv, this, TObject(pasobj), status,
     provider, msgStatus);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnLocationProviderEnabled
   Signature: (JLjava/lang/String;)V }
-procedure pOnLocationProviderEnabled(PEnv: PJNIEnv; this: JObject; 
+procedure pOnLocationProviderEnabled(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; provider: JString); cdecl;
 begin
   Java_Event_pOnLocationProviderEnabled(PEnv, this, TObject(pasobj), provider);
@@ -519,7 +519,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnLocationProviderDisabled
   Signature: (JLjava/lang/String;)V }
-procedure pOnLocationProviderDisabled(PEnv: PJNIEnv; this: JObject; 
+procedure pOnLocationProviderDisabled(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; provider: JString); cdecl;
 begin
   Java_Event_pOnLocationProviderDisabled(PEnv, this, TObject(pasobj), provider);
@@ -537,7 +537,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pAppOnListItemClick
   Signature: (Landroid/widget/AdapterView;Landroid/view/View;II)V }
-procedure pAppOnListItemClick(PEnv: PJNIEnv; this: JObject; adapter: JObject; 
+procedure pAppOnListItemClick(PEnv: PJNIEnv; this: JObject; adapter: JObject;
   view: JObject; position: JInt; id: JInt); cdecl;
 begin
   Java_Event_pAppOnListItemClick(PEnv, this, adapter, view, position, id);
@@ -546,7 +546,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnActionBarTabSelected
   Signature: (JLandroid/view/View;Ljava/lang/String;)V }
-procedure pOnActionBarTabSelected(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnActionBarTabSelected(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   view: JObject; title: JString); cdecl;
 begin
   Java_Event_pOnActionBarTabSelected(PEnv, this, TObject(pasobj), view, title);
@@ -555,7 +555,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnActionBarTabUnSelected
   Signature: (JLandroid/view/View;Ljava/lang/String;)V }
-procedure pOnActionBarTabUnSelected(PEnv: PJNIEnv; this: JObject; 
+procedure pOnActionBarTabUnSelected(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; view: JObject; title: JString); cdecl;
 begin
   Java_Event_pOnActionBarTabUnSelected(PEnv, this, TObject(pasobj), view, title
@@ -565,7 +565,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnCustomDialogShow
   Signature: (JLandroid/app/Dialog;Ljava/lang/String;)V }
-procedure pOnCustomDialogShow(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnCustomDialogShow(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   dialog: JObject; title: JString); cdecl;
 begin
   Java_Event_pOnCustomDialogShow(PEnv, this, TObject(pasobj), dialog, title);
@@ -574,7 +574,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnCustomDialogBackKeyPressed
   Signature: (JLjava/lang/String;)V }
-procedure pOnCustomDialogBackKeyPressed(PEnv: PJNIEnv; this: JObject; 
+procedure pOnCustomDialogBackKeyPressed(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; title: JString); cdecl;
 begin
   Java_Event_pOnCustomDialogBackKeyPressed(PEnv, this, TObject(pasobj), title);
@@ -583,7 +583,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnClickToggleButton
   Signature: (JZ)V }
-procedure pOnClickToggleButton(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnClickToggleButton(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   state: JBoolean); cdecl;
 begin
   Java_Event_pOnClickToggleButton(PEnv, this, TObject(pasobj), Boolean(state));
@@ -592,7 +592,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnChangeSwitchButton
   Signature: (JZ)V }
-procedure pOnChangeSwitchButton(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnChangeSwitchButton(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   state: JBoolean); cdecl;
 begin
   Java_Event_pOnChangeSwitchButton(PEnv, this, TObject(pasobj), Boolean(state));
@@ -601,16 +601,16 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnClickGridItem
   Signature: (JILjava/lang/String;)V }
-procedure pOnClickGridItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnClickGridItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   position: JInt; caption: JString); cdecl;
 begin
-  Java_Event_pOnClickGridItem(PEnv, this, TObject(pasobj), position, caption);                            
+  Java_Event_pOnClickGridItem(PEnv, this, TObject(pasobj), position, caption);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnLongClickGridItem
   Signature: (JILjava/lang/String;)V }
-procedure pOnLongClickGridItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnLongClickGridItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   position: JInt; caption: JString); cdecl;
 begin
   Java_Event_pOnLongClickGridItem(PEnv, this, TObject(pasobj), position, caption
@@ -620,38 +620,38 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnGridDrawItemCaptionColor
   Signature: (JILjava/lang/String;)I }
-function pOnGridDrawItemCaptionColor(PEnv: PJNIEnv; this: JObject; 
+function pOnGridDrawItemCaptionColor(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; position: JInt; caption: JString): JInt; cdecl;
 begin
-  Result:=Java_Event_pOnGridDrawItemCaptionColor(PEnv, this, TObject(pasobj), 
+  Result:=Java_Event_pOnGridDrawItemCaptionColor(PEnv, this, TObject(pasobj),
     position, caption);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnGridDrawItemBitmap
   Signature: (JILjava/lang/String;)Landroid/graphics/Bitmap; }
-function pOnGridDrawItemBitmap(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+function pOnGridDrawItemBitmap(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   position: JInt; caption: JString): JObject; cdecl;
 begin
-  Result:=Java_Event_pOnGridDrawItemBitmap(PEnv, this, TObject(pasobj), 
+  Result:=Java_Event_pOnGridDrawItemBitmap(PEnv, this, TObject(pasobj),
     position, caption);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnChangedSensor
   Signature: (JLandroid/hardware/Sensor;I[FJ)V }
-procedure pOnChangedSensor(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
-  sensor: JObject; sensorType: JInt; values: JFloatArray; timestamp: JLong); 
+procedure pOnChangedSensor(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  sensor: JObject; sensorType: JInt; values: JFloatArray; timestamp: JLong);
   cdecl;
 begin
-  Java_Event_pOnChangedSensor(PEnv, this, TObject(pasobj), sensor, sensorType, 
+  Java_Event_pOnChangedSensor(PEnv, this, TObject(pasobj), sensor, sensorType,
     values, timestamp);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnListeningSensor
   Signature: (JLandroid/hardware/Sensor;I)V }
-procedure pOnListeningSensor(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnListeningSensor(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   sensor: JObject; sensorType: JInt); cdecl;
 begin
   Java_Event_pOnListeningSensor(PEnv, this, TObject(pasobj), sensor, sensorType
@@ -661,17 +661,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnUnregisterListeningSensor
   Signature: (JILjava/lang/String;)V }
-procedure pOnUnregisterListeningSensor(PEnv: PJNIEnv; this: JObject; 
+procedure pOnUnregisterListeningSensor(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; sensorType: JInt; sensorName: JString); cdecl;
 begin
-  Java_Event_pOnUnregisterListeningSensor(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnUnregisterListeningSensor(PEnv, this, TObject(pasobj),
     sensorType, sensorName);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnBroadcastReceiver
   Signature: (JLandroid/content/Intent;)V }
-procedure pOnBroadcastReceiver(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnBroadcastReceiver(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   intent: JObject); cdecl;
 begin
   Java_Event_pOnBroadcastReceiver(PEnv, this, TObject(pasobj), intent);
@@ -680,7 +680,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnTimePicker
   Signature: (JII)V }
-procedure pOnTimePicker(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnTimePicker(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   hourOfDay: JInt; minute: JInt); cdecl;
 begin
   Java_Event_pOnTimePicker(PEnv, this, TObject(pasobj), hourOfDay, minute);
@@ -689,17 +689,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnDatePicker
   Signature: (JIII)V }
-procedure pOnDatePicker(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnDatePicker(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   year: JInt; monthOfYear: JInt; dayOfMonth: JInt); cdecl;
 begin
-  Java_Event_pOnDatePicker(PEnv, this, TObject(pasobj), year, monthOfYear, 
+  Java_Event_pOnDatePicker(PEnv, this, TObject(pasobj), year, monthOfYear,
     dayOfMonth);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnFlingGestureDetected
   Signature: (JI)V }
-procedure pOnFlingGestureDetected(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnFlingGestureDetected(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   direction: JInt); cdecl;
 begin
   Java_Event_pOnFlingGestureDetected(PEnv, this, TObject(pasobj), direction);
@@ -708,17 +708,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnPinchZoomGestureDetected
   Signature: (JFI)V }
-procedure pOnPinchZoomGestureDetected(PEnv: PJNIEnv; this: JObject; 
+procedure pOnPinchZoomGestureDetected(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; scaleFactor: JFloat; state: JInt); cdecl;
 begin
-  Java_Event_pOnPinchZoomGestureDetected(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnPinchZoomGestureDetected(PEnv, this, TObject(pasobj),
     scaleFactor, state);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnShellCommandExecuted
   Signature: (JLjava/lang/String;)V }
-procedure pOnShellCommandExecuted(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnShellCommandExecuted(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   cmdResult: JString); cdecl;
 begin
   Java_Event_pOnShellCommandExecuted(PEnv, this, TObject(pasobj), cmdResult);
@@ -727,17 +727,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnTCPSocketClientMessageReceived
   Signature: (J[Ljava/lang/String;)V }
-procedure pOnTCPSocketClientMessageReceived(PEnv: PJNIEnv; this: JObject; 
+procedure pOnTCPSocketClientMessageReceived(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; messagesReceived: JStringArray); cdecl;
 begin
-  Java_Event_pOnTCPSocketClientMessageReceived(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnTCPSocketClientMessageReceived(PEnv, this, TObject(pasobj),
     messagesReceived);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnTCPSocketClientConnected
   Signature: (J)V }
-procedure pOnTCPSocketClientConnected(PEnv: PJNIEnv; this: JObject; 
+procedure pOnTCPSocketClientConnected(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong); cdecl;
 begin
   Java_Event_pOnTCPSocketClientConnected(PEnv, this, TObject(pasobj));
@@ -746,7 +746,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnHttpClientContentResult
   Signature: (JLjava/lang/String;)V }
-procedure pOnHttpClientContentResult(PEnv: PJNIEnv; this: JObject; 
+procedure pOnHttpClientContentResult(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; content: JString); cdecl;
 begin
   Java_Event_pOnHttpClientContentResult(PEnv, this, TObject(pasobj), content);
@@ -755,7 +755,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnHttpClientCodeResult
   Signature: (JI)V }
-procedure pOnHttpClientCodeResult(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnHttpClientCodeResult(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   code: JInt); cdecl;
 begin
   Java_Event_pOnHttpClientCodeResult(PEnv, this, TObject(pasobj), code);
@@ -764,7 +764,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSurfaceViewCreated
   Signature: (JLandroid/view/SurfaceHolder;)V }
-procedure pOnSurfaceViewCreated(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnSurfaceViewCreated(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   surfaceHolder: JObject); cdecl;
 begin
   Java_Event_pOnSurfaceViewCreated(PEnv, this, TObject(pasobj), surfaceHolder);
@@ -773,7 +773,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSurfaceViewDraw
   Signature: (JLandroid/graphics/Canvas;)V }
-procedure pOnSurfaceViewDraw(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnSurfaceViewDraw(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   canvas: JObject); cdecl;
 begin
   Java_Event_pOnSurfaceViewDraw(PEnv, this, TObject(pasobj), canvas);
@@ -782,29 +782,29 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSurfaceViewChanged
   Signature: (JII)V }
-procedure pOnSurfaceViewChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnSurfaceViewChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   width: JInt; height: JInt); cdecl;
 begin
-  Java_Event_pOnSurfaceViewChanged(PEnv, this, TObject(pasobj), width, height);                                             
+  Java_Event_pOnSurfaceViewChanged(PEnv, this, TObject(pasobj), width, height);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnMediaPlayerPrepared
   Signature: (JII)V }
-procedure pOnMediaPlayerPrepared(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnMediaPlayerPrepared(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   videoWidth: JInt; videoHeigh: JInt); cdecl;
 begin
-  Java_Event_pOnMediaPlayerPrepared(PEnv, this, TObject(pasobj), videoWidth, 
+  Java_Event_pOnMediaPlayerPrepared(PEnv, this, TObject(pasobj), videoWidth,
     videoHeigh);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnMediaPlayerVideoSizeChanged
   Signature: (JII)V }
-procedure pOnMediaPlayerVideoSizeChanged(PEnv: PJNIEnv; this: JObject; 
+procedure pOnMediaPlayerVideoSizeChanged(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; videoWidth: JInt; videoHeight: JInt); cdecl;
 begin
-  Java_Event_pOnMediaPlayerVideoSizeChanged(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnMediaPlayerVideoSizeChanged(PEnv, this, TObject(pasobj),
     videoWidth, videoHeight);
 end;
 
@@ -820,7 +820,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnMediaPlayerTimedText
   Signature: (JLjava/lang/String;)V }
-procedure pOnMediaPlayerTimedText(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnMediaPlayerTimedText(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   timedText: JString); cdecl;
 begin
   Java_Event_pOnMediaPlayerTimedText(PEnv, this, TObject(pasobj), timedText);
@@ -829,17 +829,17 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSurfaceViewTouch
   Signature: (JIIFFFF)V }
-procedure pOnSurfaceViewTouch(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnSurfaceViewTouch(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   act: JInt; cnt: JInt; x1: JFloat; y1: JFloat; x2: JFloat; y2: JFloat); cdecl;
 begin
-  Java_Event_pOnSurfaceViewTouch(PEnv, this, TObject(pasobj), act, cnt, x1, y1, 
+  Java_Event_pOnSurfaceViewTouch(PEnv, this, TObject(pasobj), act, cnt, x1, y1,
     x2, y2);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSurfaceViewDrawingInBackground
   Signature: (JF)Z }
-function pOnSurfaceViewDrawingInBackground(PEnv: PJNIEnv; this: JObject; 
+function pOnSurfaceViewDrawingInBackground(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; progress: JFloat): JBoolean; cdecl;
 begin
   Result:=Java_Event_pOnSurfaceViewDrawingInBackground(PEnv, this, TObject(
@@ -849,50 +849,50 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSurfaceViewDrawingPostExecute
   Signature: (JF)V }
-procedure pOnSurfaceViewDrawingPostExecute(PEnv: PJNIEnv; this: JObject; 
+procedure pOnSurfaceViewDrawingPostExecute(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; progress: JFloat); cdecl;
 begin
-  Java_Event_pOnSurfaceViewDrawingPostExecute(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnSurfaceViewDrawingPostExecute(PEnv, this, TObject(pasobj),
     progress);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnContactManagerContactsExecuted
   Signature: (JI)V }
-procedure pOnContactManagerContactsExecuted(PEnv: PJNIEnv; this: JObject; 
+procedure pOnContactManagerContactsExecuted(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; count: JInt); cdecl;
 begin
-  Java_Event_pOnContactManagerContactsExecuted(PEnv, this, TObject(pasobj), 
+  Java_Event_pOnContactManagerContactsExecuted(PEnv, this, TObject(pasobj),
     count);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnContactManagerContactsProgress
   Signature: (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/graphics/Bitmap;I)Z }
-function pOnContactManagerContactsProgress(PEnv: PJNIEnv; this: JObject; 
-  pasobj: JLong; contactInfo: JString; contactShortInfo: JString; 
+function pOnContactManagerContactsProgress(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; contactInfo: JString; contactShortInfo: JString;
   contactPhotoUriAsString: JString; contactPhoto: JObject; progress: JInt
   ): JBoolean; cdecl;
 begin
   Result:=Java_Event_pOnContactManagerContactsProgress(PEnv, this, TObject(
-    pasobj), contactInfo, contactShortInfo, contactPhotoUriAsString, 
+    pasobj), contactInfo, contactShortInfo, contactPhotoUriAsString,
     contactPhoto, progress);
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSeekBarProgressChanged
   Signature: (JIZ)V }
-procedure pOnSeekBarProgressChanged(PEnv: PJNIEnv; this: JObject; 
+procedure pOnSeekBarProgressChanged(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; progress: JInt; fromUser: JBoolean); cdecl;
 begin
-  Java_Event_pOnSeekBarProgressChanged(PEnv, this, TObject(pasobj), progress, 
+  Java_Event_pOnSeekBarProgressChanged(PEnv, this, TObject(pasobj), progress,
     Boolean(fromUser));
 end;
 
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSeekBarStartTrackingTouch
   Signature: (JI)V }
-procedure pOnSeekBarStartTrackingTouch(PEnv: PJNIEnv; this: JObject; 
+procedure pOnSeekBarStartTrackingTouch(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; progress: JInt); cdecl;
 begin
   Java_Event_pOnSeekBarStartTrackingTouch(PEnv, this, TObject(pasobj), progress
@@ -902,7 +902,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnSeekBarStopTrackingTouch
   Signature: (JI)V }
-procedure pOnSeekBarStopTrackingTouch(PEnv: PJNIEnv; this: JObject; 
+procedure pOnSeekBarStopTrackingTouch(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; progress: JInt); cdecl;
 begin
   Java_Event_pOnSeekBarStopTrackingTouch(PEnv, this, TObject(pasobj), progress);
@@ -911,7 +911,7 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pOnRatingBarChanged
   Signature: (JF)V }
-procedure pOnRatingBarChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong; 
+procedure pOnRatingBarChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
   rating: JFloat); cdecl;
 begin
   Java_Event_pOnRatingBarChanged(PEnv, this, TObject(pasobj), rating);
@@ -920,10 +920,10 @@ end;
 { Class:     org_varianus_ovoplayer_remote_Controls
   Method:    pRadioGroupCheckedChanged
   Signature: (JILjava/lang/String;)V }
-procedure pRadioGroupCheckedChanged(PEnv: PJNIEnv; this: JObject; 
+procedure pRadioGroupCheckedChanged(PEnv: PJNIEnv; this: JObject;
   pasobj: JLong; checkedIndex: JInt; checkedCaption: JString); cdecl;
 begin
-  Java_Event_pRadioGroupCheckedChanged(PEnv, this, TObject(pasobj), 
+  Java_Event_pRadioGroupCheckedChanged(PEnv, this, TObject(pasobj),
     checkedIndex, checkedCaption);
 end;
 
@@ -1225,7 +1225,7 @@ const NativeMethods: array[0..97] of JNINativeMethod = (
     fnPtr: @pRadioGroupCheckedChanged; )
 );
 
-function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar; 
+function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar;
   methods: PJNINativeMethod; countMethods: integer): integer;
 var
   curClass: jClass;
@@ -1234,7 +1234,7 @@ begin
   curClass:= (PEnv^).FindClass(PEnv, className);
   if curClass <> nil then
   begin
-    if (PEnv^).RegisterNatives(PEnv, curClass, methods, countMethods) > 0 
+    if (PEnv^).RegisterNatives(PEnv, curClass, methods, countMethods) > 0
       then Result:= JNI_TRUE;
   end;
 end;
@@ -1287,10 +1287,10 @@ exports
   pAppOnCreate name 'Java_org_varianus_ovoplayer_remote_Controls_pAppOnCreate',
   pAppOnNewIntent name 'Java_org_varianus_ovoplayer_remote_Controls_'
     +'pAppOnNewIntent',
-  pAppOnDestroy name 
+  pAppOnDestroy name
     'Java_org_varianus_ovoplayer_remote_Controls_pAppOnDestroy',
   pAppOnPause name 'Java_org_varianus_ovoplayer_remote_Controls_pAppOnPause',
-  pAppOnRestart name 
+  pAppOnRestart name
     'Java_org_varianus_ovoplayer_remote_Controls_pAppOnRestart',
   pAppOnResume name 'Java_org_varianus_ovoplayer_remote_Controls_pAppOnResume',
   pAppOnStart name 'Java_org_varianus_ovoplayer_remote_Controls_pAppOnStart',
@@ -1321,7 +1321,7 @@ exports
   pOnTimer name 'Java_org_varianus_ovoplayer_remote_Controls_pOnTimer',
   pOnDraw name 'Java_org_varianus_ovoplayer_remote_Controls_pOnDraw',
   pOnTouch name 'Java_org_varianus_ovoplayer_remote_Controls_pOnTouch',
-  pOnGLRenderer name 
+  pOnGLRenderer name
     'Java_org_varianus_ovoplayer_remote_Controls_pOnGLRenderer',
   pOnClose name 'Java_org_varianus_ovoplayer_remote_Controls_pOnClose',
   pOnWebViewStatus name 'Java_org_varianus_ovoplayer_remote_Controls_'
@@ -1412,9 +1412,9 @@ exports
     +'Controls_pOnUnregisterListeningSensor',
   pOnBroadcastReceiver name 'Java_org_varianus_ovoplayer_remote_Controls_'
     +'pOnBroadcastReceiver',
-  pOnTimePicker name 
+  pOnTimePicker name
     'Java_org_varianus_ovoplayer_remote_Controls_pOnTimePicker',
-  pOnDatePicker name 
+  pOnDatePicker name
     'Java_org_varianus_ovoplayer_remote_Controls_pOnDatePicker',
   pOnFlingGestureDetected name 'Java_org_varianus_ovoplayer_remote_Controls_'
     +'pOnFlingGestureDetected',
@@ -1476,3 +1476,5 @@ begin
   gApp.Initialize;
   gApp.CreateForm(TConnect, Connect);
 end.
+
+

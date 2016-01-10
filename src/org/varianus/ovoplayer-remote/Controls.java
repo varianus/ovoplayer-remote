@@ -1213,6 +1213,12 @@ public void CopyFromAssetsToEnvironmentDir(String _filename, String _environment
 	CopyFromInternalAppStorageToEnvironmentDir(_filename,_environmentDir);	
 }
 
+public void ToggleSoftInput() {
+	  InputMethodManager imm =(InputMethodManager) controls.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+	  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+}
+
+
 }
 
 //-------------------------------------------------------------------------
@@ -1492,14 +1498,13 @@ onClickListener = new OnClickListener() {
 
 setOnClickListener(onClickListener);
 
-
 // Init Event : http://socome.tistory.com/15
 onKeyListener = new OnKeyListener() {	
   public  boolean onKey(View v, int keyCode, KeyEvent event) { //Called when a hardware key is dispatched to a view	
      if (event.getAction() == KeyEvent.ACTION_UP) {	
     	if (keyCode == KeyEvent.KEYCODE_ENTER) {
             InputMethodManager imm = (InputMethodManager) controls.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getWindowToken(), 0);       
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);       
             //Log.i("OnKeyListener","OnEnter, Hide KeyBoard");
             // LoadMan
             controls.pOnEnter(PasObj);  //just Enter/Done/Next/backbutton ....!      
@@ -2603,16 +2608,12 @@ public void setLParamHeight(int h) {
 
 //by jmpessoa
 public int getLParamHeight() {	
-	//if (this.getHeight() == 0) 
 		return lpH;
-	//else return this.getHeight();		  
 }  
 
 //by jmpessoa
 public int getLParamWidth() {	
-	//if (this.getWidth() == 0) 
 		return lpW;
-	//else return this.getWidth();
 }
 
 //by jmpessoa
@@ -2646,18 +2647,18 @@ public void setLayoutAll(int idAnchor) {
 	lparams.setMargins(MarginLeft,MarginTop,marginRight,marginBottom);
 
 	if (idAnchor > 0) {    	
-		
 		for (int i=0; i < countAnchorRule; i++) {  
 			lparams.addRule(lparamsAnchorRule[i], idAnchor);		
 	    }		
 	} 
+	
 	for (int j=0; j < countParentRule; j++) {  
 		lparams.addRule(lparamsParentRule[j]);		
-    }
+    }	
+	
 	//
 	setLayoutParams(lparams);
 }
-
 
 /*
  * TScaleType = (scaleCenter, scaleCenterCrop, scaleCenterInside, scaleFitCenter,
@@ -2713,7 +2714,6 @@ public void SetImageThumbnailFromCamera(Intent _intentData) {
     this.invalidate();
 }
 
-
 //TODO Pascal
 public void SetImageFromURI(Uri _uri) {	
 	InputStream imageStream = null;
@@ -2743,7 +2743,6 @@ public void SetImageFromByteArray(byte[] _image) {
 //
 //
 //-------------------------------------------------------------------------
-//by jmpessoa : custom row!
 //by jmpessoa : custom row!
 
 class jListItemRow{

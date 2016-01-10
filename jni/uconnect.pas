@@ -15,56 +15,34 @@ type
   { TConnect }
 
   TConnect = class(jForm)
+    Album: jTextView;
+    Artist: jTextView;
     bNext: jImageBtn;
     bPlay: jImageBtn;
     bPrev: jImageBtn;
-    jPanel4: jPanel;
-    Pref: jPreferences;
+    jActionBarTab1: jActionBarTab;
+    pnlControls: jPanel;
+    pnlInfo: jPanel;
+    pnlCover: jPanel;
     jSeekBar1: jSeekBar;
-    TVCurrPos: jTextView;
-    TimerPos: jTimer;
     Title: jTextView;
+    TVCurrPos: jTextView;
     bConnect: jButton;
-    Client: jTCPSocketClient;
-    ConnectTest: jTimer;
     edtIPAddress: jEditText;
     jImageList1: jImageList;
     jImageView1: jImageView;
     jImageView2: jImageView;
-    jPanel1: jPanel;
-    jPanel2: jPanel;
-    jPanel3: jPanel;
-    Album: jTextView;
+    pnlConnection: jPanel;
     Message: jTextView;
-    Artist: jTextView;
     procedure bConnectClick(Sender: TObject);
-    procedure ClientConnected(Sender: TObject);
-    procedure ClientMessagesReceived(Sender: TObject;
-      messagesReceived: array of Pchar);
     procedure ConnectDestroy(Sender: TObject);
     procedure ConnectJNIPrompt(Sender: TObject);
-    procedure ConnectRotate(Sender: TObject; rotate: integer;
-      var rstRotate: integer);
-    procedure ConnectTestTimer(Sender: TObject);
-    procedure bPrevClick(Sender: TObject);
-    procedure bPlayClick(Sender: TObject);
-    procedure bNextClick(Sender: TObject);
-    procedure jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
-      fromUser: boolean);
-    procedure jSeekBar1StartTrackingTouch(Sender: TObject; progress: integer);
-    procedure jSeekBar1StopTrackingTouch(Sender: TObject; progress: integer);
-    procedure TimerPosTimer(Sender: TObject);
   private
     RetryCount: integer;
     msg: string;
     CurrState : TEngineState;
-    fSeeking:boolean;
-    procedure HandleServerMEssage(smessage: String);
-    procedure OnConnectResult(Connected: boolean);
-    procedure TagsToMap(Tags: TCommonTags);
-    function TryConnect(Host: string; Port: integer): boolean;
   public
-    {public declarations}
+    procedure OnConnectResult(Connected: boolean);
   end;
 
 var
@@ -72,7 +50,7 @@ var
 
 implementation
 uses
-   netProtocol;
+   netProtocol, ubackend, uplayer;
 {$R *.lfm}
   
 
@@ -80,144 +58,30 @@ uses
 
 procedure TConnect.bConnectClick(Sender: TObject);
 begin
-  Pref.setStringData('LastAddress',edtIPAddress.Text);
+  Backend.Pref.setStringData('LastAddress',edtIPAddress.Text);
   Message.Text:='Connecting ....';
   Connect.SetEnabled(False);
 
-  TryConnect(edtIPAddress.Text, 6860);
+  Backend.TryConnect(edtIPAddress.Text, 6860);
 
-end;
-
-procedure TConnect.ClientConnected(Sender: TObject);
-begin
-  ConnectTest.Enabled:=False;
-  OnConnectResult(true);
-end;
-
-procedure TConnect.ClientMessagesReceived(Sender: TObject;
-  messagesReceived: array of pchar);
-var
-  len:integer;
-  i: integer;
-  s: string;
-begin
-  len:= Length(messagesReceived);
-  for i:= 0 to len-1 do
-    begin
-      s:= strpas(messagesReceived[i]);
-      HandleServerMessage(s);
-    end;
 end;
 
 procedure TConnect.ConnectDestroy(Sender: TObject);
 begin
- Pref.setStringData('LastAddress',edtIPAddress.Text);
+ Backend.Pref.setStringData('LastAddress',edtIPAddress.Text);
 end;
 
 procedure TConnect.ConnectJNIPrompt(Sender: TObject);
 begin
- jPanel1.LayoutParamWidth:=lpMatchParent;
- jPanel1.LayoutParamHeight:=lpMatchParent;
- jPanel2.Visible:=false;
- jPanel1.Visible:=true;
- edtIPAddress.text := Pref.GetStringData('LastAddress','10.0.2.2');
- FSeeking:= False;
-end;
-
-procedure TConnect.ConnectRotate(Sender: TObject; rotate: integer;
-  var rstRotate: integer);
-begin
- jPanel2.LayoutParamWidth:=lpMatchParent;
- jPanel2.LayoutParamHeight:=lpMatchParent;
-
-  //if rotate = 2 then // landscape
-  //  begin
-  //    jPanel2.MatchParent();
-  //    jpanel3.LayoutParamHeight:=lpMatchParent;
-  //    jPanel3.LayoutParamWidth:= lpHalfOfParent;
-  //    jpanel4.LayoutParamHeight:=lpMatchParent;
-  //    jPanel4.LayoutParamWidth:= lpHalfOfParent;
-  //    jPanel4.PosRelativeToAnchor:=[raToRightOf];
-  //  end;
-  //
-  //if rotate = 1 then // landscape
-  //  begin
-  //    jPanel2.MatchParent();
-  //    jpanel3.LayoutParamHeight:=lpThreeFifthOfParent;
-  //    jPanel3.LayoutParamWidth:= lpMatchParent;
-  //    jpanel4.LayoutParamHeight:=lpTwoFifthOfParent;
-  //    jPanel4.LayoutParamWidth:= lpMatchParent;
-  //    jPanel4.PosRelativeToAnchor:=[raBelow];
-  //  end;
-  //
-
+  if not Assigned(Backend) then
+    begin
+      LOgDebug('OVOVOVOVO','NON VOGLIO ESERE QUI!!!!');
+      Backend := TBackend.Create(Nil);
+      Backend.Init(gApp);
+    end;
+ Backend.ActiveForm:=self;
  self.UpdateLayout;
-
-end;
-
-procedure TConnect.ConnectTestTimer(Sender: TObject);
-begin
-    if RetryCount > 4 then
-    begin
-      ConnectTest.Enabled:=false;
-      OnConnectResult(false);
-    end
-  else
-    begin
-      Inc(retryCount);
-    end;
-end;
-
-procedure TConnect.bPrevClick(Sender: TObject);
-begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PREVIOUS));
-  Client.SendMessage(msg);
-end;
-
-procedure TConnect.bPlayClick(Sender: TObject);
-
-begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAYPAUSE));
-
-  Client.SendMessage(msg);
-
-end;
-
-procedure TConnect.bNextClick(Sender: TObject);
-begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_NEXT));
-  Client.SendMessage(msg);
-
-end;
-
-procedure TConnect.jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
-  fromUser: boolean);
-begin
-  if fromUser then
-    begin
-      msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress)));
-      Client.SendMessage(msg);
-    end;
-end;
-
-procedure TConnect.jSeekBar1StartTrackingTouch(Sender: TObject;
-  progress: integer);
-begin
-  FSeeking:= true;
-  TimerPos.Enabled:=false;
-end;
-
-procedure TConnect.jSeekBar1StopTrackingTouch(Sender: TObject; progress: integer
-  );
-begin
-    FSeeking:= False;
-    TimerPos.Enabled:=true;
-end;
-
-procedure TConnect.TimerPosTimer(Sender: TObject);
-begin
-  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION));
-  Client.SendMessage(msg);
+ edtIPAddress.text := Backend.Pref.GetStringData('LastAddress','10.0.2.2');
 
 end;
 
@@ -227,106 +91,21 @@ begin
     Message.Text:= 'Connection Error'
   else
     begin
-       Message.Text:= 'Connected';
-       jPanel2.Visible:=true;
-       jPanel2.LayoutParamWidth:=lpMatchParent;
-       jPanel2.LayoutParamHeight:=lpMatchParent;
-
-       jPanel1.Visible:=false;
-       Sleep(100);
-       msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE));
-       Client.SendMessage(msg);
-       msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
-       Client.SendMessage(msg);
+      Message.Text:= 'Connected';
+      if Player = nil then
+        begin
+          gApp.CreateForm(TPlayer, Player);
+          Backend.ActiveForm:= Player;
+          Player.Init(gApp);
+        end
+      else
+        begin
+          Player.Show; //actRecyclable
+        end;
     end;
   Connect.SetEnabled(true);
 end;
 
 
-procedure TConnect.TagsToMap(Tags:TCommonTags);
-var
-  i: integer;
-begin
-//  leFileName.Caption := Tags.FileName;
-  Artist.Text := Tags.Artist;
-  Album.Text := Tags.Album;
-  //album.Text := Tags.AlbumArtist;
-//  edGenre.Caption := Tags.Genre;
-  Title.text := Tags.Title;
-  jSeekBar1.Max:= Tags.Duration;
-  //meComment.Lines.Clear;
-  //meComment.Lines.Add(Tags.Comment);
-  //
-  //i := 0;
-  //TryStrToInt(Tags.Year, i);
-  //seYear.Value := i;
-  //
-  //i := 0;
-  //TryStrToInt(Tags.TrackString, i);
-  //
-  //seTrack.Value := i;
-
-end;
-
-
-Procedure TConnect.HandleServerMessage(smessage:String);
-var
-  r : RExternalCommand;
-  tags: TCommonTags;
-  s, Data: string;
-  CurrPos: integer;
-  NewState: TEngineState;
-begin
-   r := SplitCommand(sMessage);
-   if (r.Category = CATEGORY_INFORMATION) then
-       if  r.Command =
-         INFO_METADATA then begin
-                         tags := DecodeMetaData(r.Param);
-                         TagsToMap(tags);
-                       end
-       else if r.command =
-         INFO_COVER then begin
-                  //      if URIToFilename(r.param,s) then
-                  //         image1.Picture.LoadFromFile(s);
-                     end
-       else if (r.command =
-         INFO_POSITION)  then begin
-                          if not FSeeking then
-                            begin
-                             CurrPos:= StrToInt(r.Param);
-                             jSeekBar1.Progress:= CURRPOS;
-                             TVCurrPos.TEXT:= timeToStr(CurrPos / MSecsPerDay) + ' / ' +TimeToStr(jseekbar1.max / MSecsPerDay);
-                           end
-                         end
-
-       else if r.command =
-         INFO_ENGINE_STATE then   Begin
-                                 NewState:= TEngineState(StrToInt(r.Param));
-                                 if NewState = ENGINE_PLAY then
-                                   begin
-                                      bPlay.ImageUpIdentifier:='ic_pause_white_36dp';
-                                      bPlay.ImageDownIdentifier:='ic_pause_grey600_36dp';
-                                      TimerPos.Enabled:=true;
-                                   end
-                                 else
-                                   begin
-                                     TimerPos.Enabled:=False;
-                                     bPlay.ImageUpIdentifier:='ic_play_arrow_white_36dp';
-                                     bPlay.ImageDownIdentifier:='ic_play_arrow_grey600_36dp';
-                                  end
-                               end
-
-    else
-      Title.Text:= 'Got something else';
-end;
-
-
-function TConnect.TryConnect(Host: string; Port: integer): boolean;
-begin
-  RetryCount := 0;
-  ConnectTest.Enabled:=true;
-  Client.ConnectAsync(Host, Port);
-
-end;
 
 end.

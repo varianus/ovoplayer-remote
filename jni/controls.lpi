@@ -80,7 +80,7 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="4">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -92,6 +92,17 @@
         <HasResources Value="True"/>
         <UnitName Value="UConnect"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="uplayer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Player"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="ubackend.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Backend"/>
+        <ResourceBaseClass Value="DataModule"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -100,7 +111,7 @@
       <Filename Value="../libs/x86/libcontrols"/>
     </Target>
     <SearchPaths>
-      <Libraries Value="/home/varianus/Android/android-ndk-r10e/platforms/android-21/arch-x86_64/usr/lib/"/>
+      <Libraries Value="/home/varianus/Android/android-ndk-r10e/platforms/android-21/arch-x86/usr/lib/;/home/varianus/Android/android-ndk-r10e/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-android-linux/4.9/"/>
       <OtherUnitFiles Value="../../ovoplayer/trunk/src;../../ovoplayer/trunk/src/ovotag"/>
       <UnitOutputDirectory Value="../obj/controls"/>
     </SearchPaths>
@@ -130,7 +141,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-Xd"/>
+      <CustomOptions Value="-Xd -XPi686-linux-android- -FD/home/varianus/Android/android-ndk-r10e/toolchains/x86-4.9/prebuilt/linux-x86_64/bin"/>
     </Other>
   </CompilerOptions>
   <Debugging>

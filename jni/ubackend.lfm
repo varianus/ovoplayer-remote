@@ -1,0 +1,26 @@
+object Backend: TBackend
+  OnCreate = DataModuleCreate
+  OldCreateOrder = False
+  Height = 338
+  HorizontalOffset = 833
+  VerticalOffset = 351
+  Width = 418
+  object Client: jTCPSocketClient
+    OnMessagesReceived = ClientMessagesReceived
+    OnConnected = ClientConnected
+    left = 118
+    top = 73
+  end
+  object ConnectTest: jTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = ConnectTestTimer
+    left = 208
+    top = 73
+  end
+  object Pref: jPreferences
+    IsShared = False
+    left = 266
+    top = 202
+  end
+end
