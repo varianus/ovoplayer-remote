@@ -12469,6 +12469,7 @@ class jBroadcastReceiver extends BroadcastReceiver {
    }
    
    public void RegisterIntentActionFilter(int _intentAction) {
+          //  filter = null;
 	   switch(_intentAction) {
 	     case 0: controls.activity.registerReceiver(this, new IntentFilter(Intent.ACTION_TIME_TICK));
 	     case 1: controls.activity.registerReceiver(this, new IntentFilter(Intent.ACTION_TIME_CHANGED));
@@ -12479,6 +12480,10 @@ class jBroadcastReceiver extends BroadcastReceiver {
 	     case 6: controls.activity.registerReceiver(this, new IntentFilter(Intent.ACTION_POWER_DISCONNECTED));
 	     case 7: controls.activity.registerReceiver(this, new IntentFilter(Intent.ACTION_SHUTDOWN));
 	     case 8: controls.activity.registerReceiver(this, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+	     case 9: { IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+                       filter.addAction(Intent.ACTION_SCREEN_ON);
+                       controls.activity.registerReceiver(this, filter);
+                     }
 	   }
    }
    
