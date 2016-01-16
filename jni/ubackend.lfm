@@ -1,5 +1,6 @@
 object Backend: TBackend
   OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
   OldCreateOrder = False
   Height = 338
   HorizontalOffset = 833

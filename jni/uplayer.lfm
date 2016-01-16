@@ -1,6 +1,6 @@
 object Player: TPlayer
-  Left = 977
-  Top = 174
+  Left = 897
+  Top = 157
   Width = 360
   Height = 640
   MarginLeft = 0
@@ -26,11 +26,9 @@ object Player: TPlayer
     PosRelativeToParent = [rpCenterInParent]
     LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpMatchParent
-    BackgroundColor = colbrDefault
+    BackgroundColor = colbrDarkSlateGray
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
-    left = 28
-    top = 28
     Id = 0
     object pnlInfo: jPanel
       Left = 4
@@ -192,10 +190,10 @@ object Player: TPlayer
       MaxPinchZoomFactor = 4
       Id = 2508822
       object jImageView2: jImageView
-        Left = 56
-        Top = 56
-        Width = 48
-        Height = 48
+        Left = 3
+        Top = 3
+        Width = 339
+        Height = 233
         Visible = True
         PosRelativeToAnchor = []
         PosRelativeToParent = [rpTop, rpLeft]
@@ -228,8 +226,8 @@ object Player: TPlayer
       MaxPinchZoomFactor = 4
       Id = 0
       object bPrev: jImageBtn
-        Left = 9
-        Top = 54
+        Left = 5
+        Top = 61
         Width = 48
         Height = 48
         MarginLeft = 5
@@ -251,8 +249,8 @@ object Player: TPlayer
         Id = 0
       end
       object bPlay: jImageBtn
-        Left = 141
-        Top = 56
+        Left = 148
+        Top = 61
         Width = 48
         Height = 48
         MarginLeft = 5
@@ -274,8 +272,8 @@ object Player: TPlayer
         Id = 0
       end
       object bNext: jImageBtn
-        Left = 280
-        Top = 56
+        Left = 292
+        Top = 61
         Width = 48
         Height = 48
         MarginLeft = 5
@@ -304,5 +302,16 @@ object Player: TPlayer
     OnTimer = TimerPosTimer
     left = 148
     top = 228
+  end
+  object jBroadcastReceiver1: jBroadcastReceiver
+    IntentActionFilter = afScreen
+    OnReceiver = jBroadcastReceiver1Receiver
+    left = 214
+    top = 132
+  end
+  object jIntentManager1: jIntentManager
+    IntentAction = iaNone
+    left = 173
+    top = 92
   end
 end

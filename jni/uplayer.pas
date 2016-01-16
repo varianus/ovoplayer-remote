@@ -6,9 +6,9 @@ unit uplayer;
 interface
 
 uses
-  Classes, SysUtils, And_jni, And_jni_Bridge, Laz_And_Controls, 
-    Laz_And_Controls_Events, AndroidWidget, seekbar,
-    basetypes, basetag,  netprotocol;
+  Classes, SysUtils, And_jni, And_jni_Bridge, Laz_And_Controls,
+  Laz_And_Controls_Events, AndroidWidget, seekbar, broadcastreceiver,
+  intentmanager, basetypes, basetag, netprotocol;
 
 type
 
@@ -20,7 +20,9 @@ type
     bNext: jImageBtn;
     bPlay: jImageBtn;
     bPrev: jImageBtn;
+    jBroadcastReceiver1: jBroadcastReceiver;
     jImageView2: jImageView;
+    jIntentManager1: jIntentManager;
     jSeekBar1: jSeekBar;
     pnlControls: jPanel;
     pnlInfo: jPanel;
@@ -32,6 +34,7 @@ type
     procedure bNextClick(Sender: TObject);
     procedure bPlayClick(Sender: TObject);
     procedure bPrevClick(Sender: TObject);
+    procedure jBroadcastReceiver1Receiver(Sender: TObject; intent: jObject);
     procedure jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
       fromUser: boolean);
     procedure jSeekBar1StartTrackingTouch(Sender: TObject; progress: integer);
@@ -62,6 +65,7 @@ procedure TPlayer.PlayerJNIPrompt(Sender: TObject);
 begin
    pnlPlayer.MatchParent();
    FSeeking:= False;
+   jBroadcastReceiver1.Registered:=true;
    msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE));
    Backend.Client.SendMessage(msg);
    msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
@@ -74,6 +78,26 @@ procedure TPlayer.bPrevClick(Sender: TObject);
 begin
   msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PREVIOUS));
   Backend.Client.SendMessage(msg);
+end;
+
+procedure TPlayer.jBroadcastReceiver1Receiver(Sender: TObject; intent: jObject);
+var
+  act : string;
+begin
+  act := jIntentManager1.GetAction(intent);
+  if act = 'android.intent.action.SCREEN_OFF' then
+    TimerPos.Enabled := false;
+
+  if act = 'android.intent.action.SCREEN_ON' then
+    begin
+                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE));
+                              Backend.Client.SendMessage(msg);
+                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
+                              Backend.Client.SendMessage(msg);
+
+       TimerPos.Enabled := true;
+    end;
+
 end;
 
 procedure TPlayer.jSeekBar1ProgressChanged(Sender: TObject; progress: integer;

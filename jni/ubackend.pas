@@ -20,6 +20,7 @@ type
       messagesReceived: array of pchar);
     procedure ConnectTestTimer(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleDestroy(Sender: TObject);
   private
     FInitialized: boolean;
     fRetryCount: integer;
@@ -27,7 +28,7 @@ type
     ActiveForm: JForm;
     Procedure LogDebug(tag, message:string);
     procedure Init(refApp: jApp);
-    function TryConnect(Host: string; Port: integer): boolean;
+    procedure TryConnect(Host: string; Port: integer);
   end;
 
 var
@@ -46,6 +47,11 @@ begin
   FInitialized:=false;
 end;
 
+procedure TBackend.DataModuleDestroy(Sender: TObject);
+begin
+  Client.CloseConnection();
+end;
+
 procedure TBackend.LogDebug(tag, message: string);
 begin
   if Assigned(ActiveForm) then
@@ -58,6 +64,7 @@ begin
 
   ConnectTest.Enabled:=False;
   Connect.OnConnectResult(true);
+
 
 end;
 
@@ -112,7 +119,7 @@ begin
 
 end;
 
-function TBackend.TryConnect(Host: string; Port: integer): boolean;
+Procedure TBackend.TryConnect(Host: string; Port: integer);
 begin
   fRetryCount := 0;
   ConnectTest.Enabled:=true;

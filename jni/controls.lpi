@@ -96,11 +96,13 @@
         <Filename Value="uplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Player"/>
+        <HasResources Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="ubackend.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Backend"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
       </Unit3>
     </Units>
