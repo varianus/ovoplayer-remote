@@ -41,6 +41,8 @@ type
     procedure jSeekBar1StopTrackingTouch(Sender: TObject; progress: integer);
     procedure PlayerJNIPrompt(Sender: TObject);
     procedure PlayerRotate(Sender: TObject; rotate: TScreenStyle);
+    procedure pnlPlayerFlingGesture(Sender: TObject; flingGesture: TFlingGesture
+      );
     procedure TimerPosTimer(Sender: TObject);
   private
     FSeeking: boolean;
@@ -55,7 +57,7 @@ var
   Player: TPlayer;
 
 implementation
-uses uBackend;
+uses uBackend, uplaylist;
 {$R *.lfm}
   
 
@@ -165,6 +167,25 @@ begin
   pnlInfo.ResetAllRules;
 
   self.UpdateLayout;
+
+end;
+
+procedure TPlayer.pnlPlayerFlingGesture(Sender: TObject;
+  flingGesture: TFlingGesture);
+begin
+  if flingGesture <> fliRightToLeft then
+    exit;
+
+  if playlist = nil then
+    begin
+      gApp.CreateForm(Tplaylist, playlist);
+      Backend.ActiveForm:= playlist;
+      playlist.Init(gApp);
+    end
+  else
+    begin
+      playlist.Show; //actRecyclable
+    end;
 
 end;
 

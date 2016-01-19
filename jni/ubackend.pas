@@ -36,7 +36,7 @@ var
 
 implementation
 
-uses UConnect, uplayer;
+uses UConnect, uplayer, uplaylist;
 
 {$R *.lfm}
 
@@ -60,11 +60,9 @@ end;
 
 procedure TBackend.ClientConnected(Sender: TObject);
 begin
-  LogDebug('OVOVOVOVO', 'CONNECT OK');
 
   ConnectTest.Enabled:=False;
   Connect.OnConnectResult(true);
-
 
 end;
 
@@ -79,14 +77,17 @@ begin
   for i:= 0 to len-1 do
     begin
       s:= strpas(messagesReceived[i]);
-      Player.HandleServerMessage(s);
+      if ActiveForm = Player then
+         Player.HandleServerMessage(s);
+      if ActiveForm = PlayList then
+         playlist.HandleServerMessage(s);
+
     end;
 
 end;
 
 procedure TBackend.ConnectTestTimer(Sender: TObject);
 begin
-  LogDebug('OVOVOVOVO', 'TIMER');
 
   if fRetryCount > 4 then
   begin
@@ -108,7 +109,6 @@ begin
   if FInitialized  then Exit;
   if refApp = nil then Exit;
   if not refApp.Initialized then Exit;
-  LogDebug('OVOVOVOVO', 'INIT DATAMODULE');
   for i:= (Self.ComponentCount-1) downto 0 do
   begin
     if (Self.Components[i] is jControl) then
@@ -123,7 +123,6 @@ Procedure TBackend.TryConnect(Host: string; Port: integer);
 begin
   fRetryCount := 0;
   ConnectTest.Enabled:=true;
-  LogDebug('OVOVOVOVO', 'TRY CONNECT');
 
   Client.ConnectAsync(Host, Port);
 

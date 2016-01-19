@@ -29,6 +29,7 @@ object Player: TPlayer
     BackgroundColor = colbrDarkSlateGray
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
+    OnFlingGesture = pnlPlayerFlingGesture
     Id = 0
     object pnlInfo: jPanel
       Left = 4
