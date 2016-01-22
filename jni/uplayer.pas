@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, Laz_And_Controls,
   Laz_And_Controls_Events, AndroidWidget, seekbar, broadcastreceiver,
-  intentmanager, basetypes, basetag, netprotocol;
+  intentmanager, imagefilemanager, basetypes, basetag, netprotocol;
 
 type
 
@@ -21,7 +21,8 @@ type
     bPlay: jImageBtn;
     bPrev: jImageBtn;
     jBroadcastReceiver1: jBroadcastReceiver;
-    jImageView2: jImageView;
+    jImageFileManager1: jImageFileManager;
+    CoverView: jImageView;
     jIntentManager1: jIntentManager;
     jSeekBar1: jSeekBar;
     pnlControls: jPanel;
@@ -47,6 +48,7 @@ type
   private
     FSeeking: boolean;
     msg: string;
+    procedure DecodeImage(s: string);
     procedure TagsToMap(Tags: TCommonTags);
   public
     procedure HandleServerMessage(smessage: String);
@@ -57,7 +59,7 @@ var
   Player: TPlayer;
 
 implementation
-uses uBackend, uplaylist;
+uses uBackend, uplaylist, base64;
 {$R *.lfm}
   
 
@@ -72,6 +74,9 @@ begin
    Backend.Client.SendMessage(msg);
    msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
    Backend.Client.SendMessage(msg);
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG));
+   Backend.Client.SendMessage(msg);
+
    Self.UpdateLayout;
 
 end;
@@ -221,6 +226,35 @@ begin
 
 end;
 
+procedure TPlayer.DecodeImage(s: string);
+var
+  DecodedStream: TMemoryStream;
+  EncodedStream: TStringStream;
+  Decoder: TBase64DecodingStream;
+  FImageBitmap: jObject;
+  Output: string;
+begin
+//  LogDebug('OVOVOVO','______IMG_ENTER');
+  EncodedStream := TStringStream.Create(S);
+  DecodedStream := TMemoryStream.Create;
+  Decoder       := TBase64DecodingStream.Create(EncodedStream);
+  DecodedStream.CopyFrom(Decoder, Decoder.Size);
+ // LogDebug('OVOVOVO','______IMG_DECODE_'+Inttostr(Decoder.Size));
+
+  DecodedStream.Position:=0;
+  Output:= GetInternalAppStoragePath()+'/tmpcover';
+//  LogDebug('OVOVOVO','______IMG_SAVE_'+output);
+
+  DecodedStream.SaveToFile(Output);
+  FImageBitmap := jImageFileManager1.LoadFromFile('tmpcover');
+  FImageBitmap:= Get_jObjGlobalRef(FImageBitmap);
+  CoverView.SetImageBitmap(FImageBitmap);
+//  LogDebug('OVOVOVO','______IMG_RELOAD_'+output);
+  DecodedStream.Free;
+  EncodedStream.Free;
+  Decoder.Free;
+end;
+
 Procedure TPlayer.HandleServerMessage(smessage:String);
 var
   r : RExternalCommand;
@@ -229,6 +263,7 @@ var
   CurrPos: integer;
   NewState: TEngineState;
 begin
+//   LogDebug('OVOVOVO','_____GOT_DATA_'+smessage);
    r := SplitCommand(sMessage);
    if (r.Category = CATEGORY_INFORMATION) then
        if  r.Command =
@@ -237,10 +272,17 @@ begin
                          TagsToMap(tags);
                        end
        else if r.command =
-         INFO_COVER then begin
+         INFO_COVERURL then begin
                   //      if URIToFilename(r.param,s) then
                   //         image1.Picture.LoadFromFile(s);
                      end
+       else if r.command =
+       INFO_COVERIMG then begin
+                         DecodeImage(r.Param);
+                //      if URIToFilename(r.param,s) then
+                //         image1.Picture.LoadFromFile(s);
+                   end
+
        else if (r.command =
          INFO_POSITION)  then begin
                           if not FSeeking then

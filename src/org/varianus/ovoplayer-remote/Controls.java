@@ -14410,13 +14410,19 @@ class jTCPSocketClient {
                             if (mBufferIn != null)   {
                                 char[] charSize = new char[4];
                                 mServerMessage = null;
-                                int tmp = mBufferIn.read(charSize, 0, 4);
-                                if (tmp  > 0) {
+                                int readCnt = mBufferIn.read(charSize, 0, 4);
+                                if (readCnt  > 0) {
                                    byte[] buff = Base64.decode(String.valueOf(charSize), Base64.DEFAULT);
                                    int DataSize = fromByteArray(buff);
                                    char[] Data = new char[DataSize];
-                                   tmp = mBufferIn.read(Data, 0, DataSize );
-                                   mServerMessage =  String.valueOf(Data);
+                                   StringBuilder sb = new StringBuilder();
+                                   int remains = DataSize;
+                                   while (remains > 0) {
+                                         readCnt = mBufferIn.read(Data, 0, remains );
+                                         sb.append(Data);
+                                         remains = remains - readCnt ;
+                                      }
+                                   mServerMessage =  sb.toString();
                                    } 
                                 else 
                                    { Log.i("OVOVOOVO_JAVA", "NO_DATA");

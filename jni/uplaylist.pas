@@ -49,12 +49,13 @@ begin
   r := SplitCommand(sMessage);
   if (r.Category = CATEGORY_INFORMATION) and (r.Command = INFO_FULLPLAYLIST) then
      begin
+       jlvPlayList.Clear;
        TotalCount:=StrToIntDef(ExtractField(r.param), 0);
        LogDebug('OVOVOVOVO', 'GOT PLAYLIST');
        for CurrPos:= 0 to TotalCount -1 do
          begin
            tags := DecodeMetaData(r.Param);
-           jlvPlayList.Add(tags.Title+'|'+tags.AlbumArtist);
+           jlvPlayList.Items.Add(tags.Title+'|'+tags.AlbumArtist);
          end;
 
      end
@@ -74,12 +75,21 @@ procedure Tplaylist.jPanel1FlingGesture(Sender: TObject;
 var
   msg:string;
 begin
-  if flingGesture = fliBottomToTop then
+  if flingGesture <> fliLeftToRight then
+     exit;
+
+   if player = nil then
     begin
-      LogDebug('OVOVOVOVO', 'REFRESH PLAYLIST');
-      msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_FULLPLAYLIST));
-      backend.Client.SendMessage(msg);
+      gApp.CreateForm(Tplayer, player);
+      Backend.ActiveForm:= player;
+      player.Init(gApp);
+    end
+  else
+    begin
+      playlist.Show; //actRecyclable
     end;
+    self.Close;
+    LogDebug('OVOVOVOVO', 'GO To PLAYER');
 end;
 
 procedure Tplaylist.playlistJNIPrompt(Sender: TObject);

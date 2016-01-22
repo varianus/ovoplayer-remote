@@ -190,7 +190,7 @@ object Player: TPlayer
       MinPinchZoomFactor = 0.25
       MaxPinchZoomFactor = 4
       Id = 2508822
-      object jImageView2: jImageView
+      object CoverView: jImageView
         Left = 3
         Top = 3
         Width = 339
@@ -200,7 +200,7 @@ object Player: TPlayer
         PosRelativeToParent = [rpTop, rpLeft]
         LayoutParamWidth = lpMatchParent
         LayoutParamHeight = lpMatchParent
-        ImageIndex = 0
+        ImageIndex = 1
         Images = Connect.jImageList1
         BackgroundColor = colbrDefault
         ImageScaleType = scaleFitCenter
@@ -314,5 +314,9 @@ object Player: TPlayer
     IntentAction = iaNone
     left = 173
     top = 92
+  end
+  object jImageFileManager1: jImageFileManager
+    left = 73
+    top = 99
   end
 end

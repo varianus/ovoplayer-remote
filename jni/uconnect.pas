@@ -75,7 +75,6 @@ procedure TConnect.ConnectJNIPrompt(Sender: TObject);
 begin
   if not Assigned(Backend) then
     begin
-      LOgDebug('OVOVOVOVO','NON VOGLIO ESERE QUI!!!!');
       Backend := TBackend.Create(Nil);
       Backend.Init(gApp);
     end;

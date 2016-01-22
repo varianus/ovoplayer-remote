@@ -9,7 +9,7 @@ object playlist: Tplaylist
   MarginBottom = 0
   Text = 'Playlist'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrPurple
+  BackgroundColor = colbrDarkSlateGray
   OnJNIPrompt = playlistJNIPrompt
   OnBackButton = playlistBackButton
   object jPanel1: jPanel
