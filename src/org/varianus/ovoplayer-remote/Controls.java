@@ -14414,15 +14414,19 @@ class jTCPSocketClient {
                                 if (readCnt  > 0) {
                                    byte[] buff = Base64.decode(String.valueOf(charSize), Base64.DEFAULT);
                                    int DataSize = fromByteArray(buff);
-                                   char[] Data = new char[DataSize];
+                        //           Log.i("OVOVOOVO_JAVA", "TO_READ_"+Integer.toString(DataSize));
+                                   char[] Data = new char[1024];
                                    StringBuilder sb = new StringBuilder();
                                    int remains = DataSize;
                                    while (remains > 0) {
-                                         readCnt = mBufferIn.read(Data, 0, remains );
-                                         sb.append(Data);
+                                         readCnt = mBufferIn.read(Data, 0, Math.min(remains, 1024));
+                          //               Log.i("OVOVOOVO_JAVA", "READED_"+Integer.toString(readCnt));
+                                         sb.append(Data, 0, readCnt);
                                          remains = remains - readCnt ;
                                       }
                                    mServerMessage =  sb.toString();
+                              //     Log.i("OVOVOOVO_JAVA", "DATA_"+mServerMessage);
+
                                    } 
                                 else 
                                    { Log.i("OVOVOOVO_JAVA", "NO_DATA");
@@ -14430,7 +14434,8 @@ class jTCPSocketClient {
                                      mRun = false;
                                    }
                                 }
-                          else { Log.i("OVOVOOVO_JAVA", "BUFFER IN ERROR");}      
+                            else
+                              { Log.e("OVOVOOVO_JAVA", "BUFFER IN ERROR");}
 
     	                    if (mServerMessage != null )                     	
     	                       	 publishProgress(mServerMessage);
