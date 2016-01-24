@@ -9,8 +9,8 @@ object Backend: TBackend
   object Client: jTCPSocketClient
     OnMessagesReceived = ClientMessagesReceived
     OnConnected = ClientConnected
-    left = 118
-    top = 73
+    left = 48
+    top = 32
   end
   object ConnectTest: jTimer
     Enabled = False

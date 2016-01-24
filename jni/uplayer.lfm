@@ -9,7 +9,7 @@ object Player: TPlayer
   MarginBottom = 0
   Text = 'Player'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrDefault
+  BackgroundColor = colbrSlateGray
   OnRotate = PlayerRotate
   OnJNIPrompt = PlayerJNIPrompt
   object pnlPlayer: jPanel
@@ -26,7 +26,7 @@ object Player: TPlayer
     PosRelativeToParent = [rpCenterInParent]
     LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpMatchParent
-    BackgroundColor = colbrDarkSlateGray
+    BackgroundColor = colbrDefault
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
     OnFlingGesture = pnlPlayerFlingGesture
@@ -315,8 +315,12 @@ object Player: TPlayer
     left = 173
     top = 92
   end
-  object jImageFileManager1: jImageFileManager
-    left = 73
-    top = 99
+  object jBitmap1: jBitmap
+    FilePath = fpathData
+    ImageIndex = -1
+    Width = 0
+    Height = 0
+    left = 264
+    top = 57
   end
 end

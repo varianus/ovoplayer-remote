@@ -20,8 +20,8 @@ type
     bNext: jImageBtn;
     bPlay: jImageBtn;
     bPrev: jImageBtn;
+    jBitmap1: jBitmap;
     jBroadcastReceiver1: jBroadcastReceiver;
-    jImageFileManager1: jImageFileManager;
     CoverView: jImageView;
     jIntentManager1: jIntentManager;
     jSeekBar1: jSeekBar;
@@ -71,6 +71,8 @@ begin
    FSeeking:= False;
    jBroadcastReceiver1.Registered:=true;
    msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE));
+   Backend.Client.SendMessage(msg);
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION));
    Backend.Client.SendMessage(msg);
    msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
    Backend.Client.SendMessage(msg);
@@ -232,24 +234,21 @@ var
   EncodedStream: TStringStream;
   Decoder: TBase64DecodingStream;
   FImageBitmap: jObject;
-  Output: string;
+  TempFileName: string;
 begin
-//  LogDebug('OVOVOVO','______IMG_ENTER');
   EncodedStream := TStringStream.Create(S);
   DecodedStream := TMemoryStream.Create;
   Decoder       := TBase64DecodingStream.Create(EncodedStream);
-  DecodedStream.CopyFrom(Decoder, Decoder.Size);
- // LogDebug('OVOVOVO','______IMG_DECODE_'+Inttostr(Decoder.Size));
-
-  DecodedStream.Position:=0;
-  Output:= GetInternalAppStoragePath()+'/tmpcover';
-//  LogDebug('OVOVOVO','______IMG_SAVE_'+output);
-
-  DecodedStream.SaveToFile(Output);
-  FImageBitmap := jImageFileManager1.LoadFromFile('tmpcover');
-  FImageBitmap:= Get_jObjGlobalRef(FImageBitmap);
-  CoverView.SetImageBitmap(FImageBitmap);
-//  LogDebug('OVOVOVO','______IMG_RELOAD_'+output);
+  try
+    DecodedStream.CopyFrom(Decoder, Decoder.Size);
+    DecodedStream.Position:=0;
+    TempFileName:= GetInternalAppStoragePath()+'/tmpcover';
+    DecodedStream.SaveToFile(TempFileName);
+    jBitmap1.LoadFromFile('tmpcover');
+    CoverView.SetImageBitmap(jBitmap1.GetJavaBitmap);
+  Except
+    CoverView.SetImageBitmap(jBitmap1.LoadFromAssets('nocover.png'));
+  end;
   DecodedStream.Free;
   EncodedStream.Free;
   Decoder.Free;
@@ -257,47 +256,50 @@ end;
 
 Procedure TPlayer.HandleServerMessage(smessage:String);
 var
-  r : RExternalCommand;
+  Command : RExternalCommand;
   tags: TCommonTags;
   s, Data: string;
   CurrPos: integer;
   NewState: TEngineState;
 begin
 //   LogDebug('OVOVOVO','_____GOT_DATA_'+smessage);
-   r := SplitCommand(sMessage);
-   if (r.Category = CATEGORY_INFORMATION) then
-       if  r.Command =
+   Command := SplitCommand(sMessage);
+   if (Command.Category = CATEGORY_INFORMATION) then
+       if  Command.Command =
          INFO_METADATA then begin
-                         tags := DecodeMetaData(r.Param);
+                         tags := DecodeMetaData(Command.Param);
                          TagsToMap(tags);
                        end
-       else if r.command =
+       else if Command.command =
          INFO_COVERURL then begin
-                  //      if URIToFilename(r.param,s) then
+                  //      if URIToFilename(Command.param,s) then
                   //         image1.Picture.LoadFromFile(s);
                      end
-       else if r.command =
+       else if Command.command =
        INFO_COVERIMG then begin
-                         DecodeImage(r.Param);
-                //      if URIToFilename(r.param,s) then
-                //         image1.Picture.LoadFromFile(s);
+                         if Command.Param <> EmptyStr then
+                           DecodeImage(Command.Param)
+                         else
+                           CoverView.SetImageBitmap(jBitmap1.LoadFromAssets('nocover.png'));
                    end
 
-       else if (r.command =
+       else if (Command.command =
          INFO_POSITION)  then begin
                           if not FSeeking then
                             begin
-                             CurrPos:= StrToInt(r.Param);
+                             CurrPos:= StrToInt(Command.Param);
                              jSeekBar1.Progress:= CURRPOS;
                              TVCurrPos.TEXT:= timeToStr(CurrPos / MSecsPerDay) + ' / ' +TimeToStr(jseekbar1.max / MSecsPerDay);
                            end
                          end
 
-       else if r.command =
+       else if Command.command =
          INFO_ENGINE_STATE then   Begin
-                                 NewState:= TEngineState(StrToInt(r.Param));
+                                 NewState:= TEngineState(StrToInt(Command.Param));
                                  if NewState = ENGINE_PLAY then
                                    begin
+                                      msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG));
+                                      Backend.Client.SendMessage(msg);
                                       bPlay.ImageUpIdentifier:='ic_pause_white_36dp';
                                       bPlay.ImageDownIdentifier:='ic_pause_grey600_36dp';
                                       TimerPos.Enabled:=true;
