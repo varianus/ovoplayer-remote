@@ -31,7 +31,7 @@ var
 
 implementation
 
-uses uplayer, ubackend, BaseTypes, basetag, netprotocol;
+uses uplayer, ubackend, BaseTypes, basetag, netprotocol, netsupport;
 
 {$R *.lfm}
   
@@ -55,7 +55,7 @@ begin
        for CurrPos:= 0 to TotalCount -1 do
          begin
            tags := DecodeMetaData(r.Param);
-           jlvPlayList.Items.Add(tags.Title+'|'+tags.AlbumArtist);
+           jlvPlayList.Add(tags.Title+'|'+tags.AlbumArtist,'|');
          end;
 
      end
@@ -99,7 +99,7 @@ begin
   Backend.ActiveForm:=self;
   self.UpdateLayout;
 
-  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_FULLPLAYLIST));
+  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_FULLPLAYLIST), Backend.cfg);
   backend.Client.SendMessage(msg);
 
 end;

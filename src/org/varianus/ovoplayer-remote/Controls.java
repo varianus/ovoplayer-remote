@@ -1,6 +1,6 @@
 package org.varianus.ovoplayer_remote;
 
-//Lamw: Lazarus Android Module Wizard  - version 0.6 - revision 38 - 26 December - 2015 
+//Lamw: Lazarus Android Module Wizard  - version 0.6 - revision 38.3 - 07 January - 2016 
 //Form Designer and Components development model!
 //
 //https://github.com/jmpessoa/lazandroidmodulewizard
@@ -14411,25 +14411,27 @@ class jTCPSocketClient {
                                 char[] charSize = new char[4];
                                 mServerMessage = null;
                                 int readCnt = mBufferIn.read(charSize, 0, 4);
-                                if (readCnt  > 0) {
+                              //   Log.i("OVOVOOVO_JAVA", "SIZE_"+String.valueOf(charSize));
+                                if (readCnt  > 3) {
                                    byte[] buff = Base64.decode(String.valueOf(charSize), Base64.DEFAULT);
                                    int DataSize = fromByteArray(buff);
-                        //           Log.i("OVOVOOVO_JAVA", "TO_READ_"+Integer.toString(DataSize));
-                                   char[] Data = new char[1024];
+                               //    Log.i("OVOVOOVO_JAVA", "TO_READ_"+Integer.toString(DataSize));
                                    StringBuilder sb = new StringBuilder();
                                    int remains = DataSize;
                                    while (remains > 0) {
-                                         readCnt = mBufferIn.read(Data, 0, Math.min(remains, 1024));
-                          //               Log.i("OVOVOOVO_JAVA", "READED_"+Integer.toString(readCnt));
+                                         char[] Data = new char[Math.min(remains, 2048)];
+                                         readCnt = mBufferIn.read(Data, 0, Math.min(remains, 2048));
+                                   //      Log.i("OVOVOOVO_JAVA", "READED_"+Integer.toString(readCnt));
+                                   //      Log.i("OVOVOOVO_JAVA", "DATA_"+String.valueOf(Data));
                                          sb.append(Data, 0, readCnt);
                                          remains = remains - readCnt ;
                                       }
                                    mServerMessage =  sb.toString();
-                              //     Log.i("OVOVOOVO_JAVA", "DATA_"+mServerMessage);
+//                                   Log.i("OVOVOOVO_JAVA", "DATA_"+mServerMessage);
 
                                    } 
                                 else 
-                                   { Log.i("OVOVOOVO_JAVA", "NO_DATA");
+                                   { Log.i("OVOVOOVO_JAVA", "NO_DATA_"+String.valueOf(charSize));
 
                                      mRun = false;
                                    }

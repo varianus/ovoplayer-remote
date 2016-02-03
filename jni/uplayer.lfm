@@ -9,7 +9,7 @@ object Player: TPlayer
   MarginBottom = 0
   Text = 'Player'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrSlateGray
+  BackgroundColor = colbrDarkSlateGray
   OnRotate = PlayerRotate
   OnJNIPrompt = PlayerJNIPrompt
   object pnlPlayer: jPanel

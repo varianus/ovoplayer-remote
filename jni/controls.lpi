@@ -116,7 +116,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="../libs/x86/libcontrols"/>
+      <Filename Value="../libs/x86/libcontrols.so" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <Libraries Value="/home/varianus/Android/android-ndk-r10e/platforms/android-21/arch-x86/usr/lib/;/home/varianus/Android/android-ndk-r10e/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-android-linux/4.9/"/>

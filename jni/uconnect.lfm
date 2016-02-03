@@ -10,7 +10,7 @@ object Connect: TConnect
   OnDestroy = ConnectDestroy
   Text = 'Connect'
   ActivityMode = actMain
-  BackgroundColor = colbrDefault
+  BackgroundColor = colbrDarkSlateGray
   OnJNIPrompt = ConnectJNIPrompt
   object pnlConnection: jPanel
     Left = 4

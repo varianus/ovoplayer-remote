@@ -5,7 +5,7 @@ unit ubackend;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, AndroidWidget, tcpsocketclient, Laz_And_Controls, preferences;
+  Classes, SysUtils, FileUtil, AndroidWidget, tcpsocketclient, Laz_And_Controls, preferences, NetSupport;
 
 type
 
@@ -26,6 +26,7 @@ type
     fRetryCount: integer;
   public
     ActiveForm: JForm;
+    Cfg: RConnectionCfg;
     Procedure LogDebug(tag, message:string);
     procedure Init(refApp: jApp);
     procedure TryConnect(Host: string; Port: integer);
@@ -36,7 +37,7 @@ var
 
 implementation
 
-uses UConnect, uplayer, uplaylist;
+uses UConnect, uplayer, uplaylist, NetProtocol;
 
 {$R *.lfm}
 
@@ -45,6 +46,7 @@ uses UConnect, uplayer, uplaylist;
 procedure TBackend.DataModuleCreate(Sender: TObject);
 begin
   FInitialized:=false;
+  Cfg.SizeMode:=smByte;
 end;
 
 procedure TBackend.DataModuleDestroy(Sender: TObject);
@@ -62,7 +64,9 @@ procedure TBackend.ClientConnected(Sender: TObject);
 begin
 
   ConnectTest.Enabled:=False;
+  Client.SendMessage(EncodeString(BuildCommand(CATEGORY_CONFIG, COMMAND_SIZEMODE, '1'),cfg));
   Connect.OnConnectResult(true);
+
 
 end;
 

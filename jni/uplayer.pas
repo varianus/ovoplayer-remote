@@ -59,7 +59,7 @@ var
   Player: TPlayer;
 
 implementation
-uses uBackend, uplaylist, base64;
+uses uBackend, uplaylist, base64, netsupport;
 {$R *.lfm}
   
 
@@ -68,24 +68,25 @@ uses uBackend, uplaylist, base64;
 procedure TPlayer.PlayerJNIPrompt(Sender: TObject);
 begin
    pnlPlayer.MatchParent();
+   Self.UpdateLayout;
    FSeeking:= False;
    jBroadcastReceiver1.Registered:=true;
-   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE));
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE), Backend.cfg);
    Backend.Client.SendMessage(msg);
-   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION));
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION), Backend.cfg);
    Backend.Client.SendMessage(msg);
-   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA), Backend.cfg);
    Backend.Client.SendMessage(msg);
-   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG));
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG, EncodeImageSize(CoverView.Width, CoverView.Height)), Backend.cfg);
    Backend.Client.SendMessage(msg);
 
-   Self.UpdateLayout;
+
 
 end;
 
 procedure TPlayer.bPrevClick(Sender: TObject);
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PREVIOUS));
+  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PREVIOUS), Backend.cfg);
   Backend.Client.SendMessage(msg);
 end;
 
@@ -99,9 +100,9 @@ begin
 
   if act = 'android.intent.action.SCREEN_ON' then
     begin
-                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE));
+                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE), Backend.cfg);
                               Backend.Client.SendMessage(msg);
-                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA));
+                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA), Backend.cfg);
                               Backend.Client.SendMessage(msg);
 
        TimerPos.Enabled := true;
@@ -114,7 +115,7 @@ procedure TPlayer.jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
 begin
   if fromUser then
     begin
-      msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress)));
+      msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress)), Backend.cfg);
       backend.Client.SendMessage(msg);
     end;
 end;
@@ -135,28 +136,33 @@ end;
 
 procedure TPlayer.bPlayClick(Sender: TObject);
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAYPAUSE));
+  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAYPAUSE), Backend.cfg);
   Backend.Client.SendMessage(msg);
 
 end;
 
 procedure TPlayer.bNextClick(Sender: TObject);
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_NEXT));
+  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_NEXT), Backend.cfg);
   Backend.Client.SendMessage(msg);
 end;
 
 procedure TPlayer.PlayerRotate(Sender: TObject; rotate: TScreenStyle);
 begin
 
+  pnlPlayer.MatchParent();
+
   if rotate = ssLandscape then
     begin
-      pnlCover.LayoutParamHeight:=lpMatchParent;
+      pnlCover.LayoutParamHeight:=lpThreeFifthOfParent;
       pnlCover.LayoutParamWidth:= lpHalfOfParent;
+
       pnlInfo.PosRelativeToAnchor:=[raToRightOf];
       pnlInfo.PosRelativeToParent:=[rpTop];
-      pnlInfo.LayoutParamHeight:=lpMatchParent;
+      pnlInfo.LayoutParamHeight:=lpThreeFifthOfParent;
       pnlInfo.LayoutParamWidth:= lpHalfOfParent;
+
+      pnlControls.LayoutParamHeight:=lpOneFifthOfParent;
 
     end
   Else
@@ -165,13 +171,16 @@ begin
       pnlCover.LayoutParamWidth:= lpMatchParent;
       pnlInfo.LayoutParamHeight:=lpTwoFifthOfParent;
       pnlInfo.LayoutParamWidth:= lpMatchParent;
-      pnlControls.LayoutParamHeight:=lpOneFifthOfParent;
       pnlInfo.PosRelativeToAnchor:=[raBelow];
       pnlInfo.PosRelativeToParent:=[rpLeft];
+      pnlControls.LayoutParamHeight:=lpOneFifthOfParent;
 
     end;
-  pnlCover.ResetAllRules;
-  pnlInfo.ResetAllRules;
+    pnlPlayer.ResetAllRules;
+    pnlControls.ResetAllRules;
+
+    pnlCover.ResetAllRules;
+    pnlInfo.ResetAllRules;
 
   self.UpdateLayout;
 
@@ -198,7 +207,7 @@ end;
 
 procedure TPlayer.TimerPosTimer(Sender: TObject);
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION));
+  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION), Backend.cfg);
   backend.Client.SendMessage(msg);
 
 end;
@@ -298,7 +307,7 @@ begin
                                  NewState:= TEngineState(StrToInt(Command.Param));
                                  if NewState = ENGINE_PLAY then
                                    begin
-                                      msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG));
+                                      msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG, EncodeImageSize(CoverView.Width, CoverView.Height)), Backend.cfg);
                                       Backend.Client.SendMessage(msg);
                                       bPlay.ImageUpIdentifier:='ic_pause_white_36dp';
                                       bPlay.ImageDownIdentifier:='ic_pause_grey600_36dp';
