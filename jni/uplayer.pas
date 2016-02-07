@@ -252,6 +252,7 @@ begin
     DecodedStream.CopyFrom(Decoder, Decoder.Size);
     DecodedStream.Position:=0;
     TempFileName:= GetInternalAppStoragePath()+'/tmpcover';
+    LogDebug('OVOVOVOVO____',TempFileName);
     DecodedStream.SaveToFile(TempFileName);
     jBitmap1.LoadFromFile('tmpcover');
     CoverView.SetImageBitmap(jBitmap1.GetJavaBitmap);

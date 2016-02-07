@@ -16,6 +16,8 @@ type
   Tplaylist = class(jForm)
     jlvPlayList: jListView;
     jPanel1: jPanel;
+    procedure jlvPlayListClickItem(Sender: TObject; itemIndex: integer;
+      itemCaption: string);
     procedure jPanel1FlingGesture(Sender: TObject; flingGesture: TFlingGesture);
     procedure playlistBackButton(Sender: TObject);
     procedure playlistJNIPrompt(Sender: TObject);
@@ -38,6 +40,22 @@ uses uplayer, ubackend, BaseTypes, basetag, netprotocol, netsupport;
 
 { Tplaylist }
 
+function DumpMetaData(Tags: TCommonTags): String;
+begin
+  result :=
+            (inttostr(Tags.id))+'__'+
+            (Tags.FileName)+'__'+
+            (Tags.Album)+'__'+
+            (Tags.AlbumArtist)+'__'+
+            (Tags.Artist)+'__'+
+            (Tags.Comment)+'__'+
+            (Inttostr(Tags.Duration))+'__'+
+            (Tags.Genre)+'__'+
+            (Tags.Title)+'__'+
+            (Tags.TrackString)+'__'+
+            (Tags.Year);
+           end;
+
 Procedure TPlayList.HandleServerMessage(smessage:String);
 var
   r : RExternalCommand;
@@ -50,12 +68,14 @@ begin
   if (r.Category = CATEGORY_INFORMATION) and (r.Command = INFO_FULLPLAYLIST) then
      begin
        jlvPlayList.Clear;
+
        TotalCount:=StrToIntDef(ExtractField(r.param), 0);
        LogDebug('OVOVOVOVO', 'GOT PLAYLIST');
        for CurrPos:= 0 to TotalCount -1 do
          begin
            tags := DecodeMetaData(r.Param);
-           jlvPlayList.Add(tags.Title+'|'+tags.AlbumArtist,'|');
+        //   LogDebug('OVOVOVOVO', DumpMetaData(Tags));
+           jlvPlayList.Add(tags.Title+'|'+tags.AlbumArtist,'|', colbrDefault, 0, wgTextView, inttostr(CurrPos+1)+'.',nil);
          end;
 
      end
@@ -90,6 +110,15 @@ begin
     end;
     self.Close;
     LogDebug('OVOVOVOVO', 'GO To PLAYER');
+end;
+
+procedure Tplaylist.jlvPlayListClickItem(Sender: TObject; itemIndex: integer;
+  itemCaption: string);
+var
+  msg:string;
+begin
+  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAY, IntToStr(ItemIndex)), Backend.cfg);
+  backend.Client.SendMessage(msg);
 end;
 
 procedure Tplaylist.playlistJNIPrompt(Sender: TObject);

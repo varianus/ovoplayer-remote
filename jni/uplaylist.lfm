@@ -32,10 +32,10 @@ object playlist: Tplaylist
     OnFlingGesture = jPanel1FlingGesture
     Id = 0
     object jlvPlayList: jListView
-      Left = 28
-      Top = 28
-      Width = 318
-      Height = 606
+      Left = 0
+      Top = 16
+      Width = 346
+      Height = 618
       Visible = True
       PosRelativeToAnchor = []
       PosRelativeToParent = []
@@ -44,14 +44,15 @@ object playlist: Tplaylist
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
-      WidgetItem = wgNone
+      WidgetItem = wgTextView
       Delimiter = '|'
-      TextDecorated = txtNormal
-      ItemLayout = layImageTextWidget
+      TextDecorated = txtBoldAndItalic
+      ItemLayout = layWidgetTextImage
       TextSizeDecorated = sdDecreasing
       TextAlign = alLeft
-      HighLightSelectedItemColor = colbrDefault
+      HighLightSelectedItemColor = colbrSlateGray
       FontSizeUnit = unitDefault
+      OnClickItem = jlvPlayListClickItem
       Id = 0
     end
   end
