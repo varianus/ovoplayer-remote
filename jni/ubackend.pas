@@ -26,7 +26,8 @@ type
     fRetryCount: integer;
   public
     ActiveForm: JForm;
-    Cfg: RConnectionCfg;
+    OutCfg: RConnectionCfg;
+    InCfg: RConnectionCfg;
     Procedure LogDebug(tag, message:string);
     procedure Init(refApp: jApp);
     procedure TryConnect(Host: string; Port: integer);
@@ -46,7 +47,8 @@ uses UConnect, uplayer, uplaylist, NetProtocol;
 procedure TBackend.DataModuleCreate(Sender: TObject);
 begin
   FInitialized:=false;
-  Cfg.SizeMode:=smByte;
+  OutCfg.SizeMode:=smByte;
+  InCfg.SizeMode:=smUTF8Char;
 end;
 
 procedure TBackend.DataModuleDestroy(Sender: TObject);
@@ -64,7 +66,7 @@ procedure TBackend.ClientConnected(Sender: TObject);
 begin
 
   ConnectTest.Enabled:=False;
-  Client.SendMessage(EncodeString(BuildCommand(CATEGORY_CONFIG, COMMAND_SIZEMODE, '1'),cfg));
+  Client.SendMessage(EncodeString(BuildCommand(CATEGORY_CONFIG, COMMAND_SIZEMODE, '1'),OutCfg));
   Connect.OnConnectResult(true);
 
 

@@ -71,13 +71,13 @@ begin
    Self.UpdateLayout;
    FSeeking:= False;
    jBroadcastReceiver1.Registered:=true;
-   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE), Backend.cfg);
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE), Backend.OutCfg);
    Backend.Client.SendMessage(msg);
-   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION), Backend.cfg);
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION), Backend.OutCfg);
    Backend.Client.SendMessage(msg);
-   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA), Backend.cfg);
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA), Backend.OutCfg);
    Backend.Client.SendMessage(msg);
-   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG, EncodeImageSize(CoverView.Width, CoverView.Height)), Backend.cfg);
+   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG, EncodeImageSize(CoverView.Width, CoverView.Height)), Backend.OutCfg);
    Backend.Client.SendMessage(msg);
 
 
@@ -86,7 +86,7 @@ end;
 
 procedure TPlayer.bPrevClick(Sender: TObject);
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PREVIOUS), Backend.cfg);
+  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PREVIOUS), Backend.OutCfg);
   Backend.Client.SendMessage(msg);
 end;
 
@@ -100,9 +100,9 @@ begin
 
   if act = 'android.intent.action.SCREEN_ON' then
     begin
-                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE), Backend.cfg);
+                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_ENGINE_STATE), Backend.OutCfg);
                               Backend.Client.SendMessage(msg);
-                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA), Backend.cfg);
+                              msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_METADATA), Backend.OutCfg);
                               Backend.Client.SendMessage(msg);
 
        TimerPos.Enabled := true;
@@ -115,7 +115,7 @@ procedure TPlayer.jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
 begin
   if fromUser then
     begin
-      msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress)), Backend.cfg);
+      msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_SEEK, IntToStr(Progress)), Backend.OutCfg);
       backend.Client.SendMessage(msg);
     end;
 end;
@@ -136,14 +136,14 @@ end;
 
 procedure TPlayer.bPlayClick(Sender: TObject);
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAYPAUSE), Backend.cfg);
+  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAYPAUSE), Backend.OutCfg);
   Backend.Client.SendMessage(msg);
 
 end;
 
 procedure TPlayer.bNextClick(Sender: TObject);
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_NEXT), Backend.cfg);
+  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_NEXT), Backend.OutCfg);
   Backend.Client.SendMessage(msg);
 end;
 
@@ -207,7 +207,7 @@ end;
 
 procedure TPlayer.TimerPosTimer(Sender: TObject);
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION), Backend.cfg);
+  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_POSITION), Backend.OutCfg);
   backend.Client.SendMessage(msg);
 
 end;
@@ -252,7 +252,7 @@ begin
     DecodedStream.CopyFrom(Decoder, Decoder.Size);
     DecodedStream.Position:=0;
     TempFileName:= GetInternalAppStoragePath()+'/tmpcover';
-    LogDebug('OVOVOVOVO____',TempFileName);
+    //LogDebug('OVOVOVOVO____',TempFileName);
     DecodedStream.SaveToFile(TempFileName);
     jBitmap1.LoadFromFile('tmpcover');
     CoverView.SetImageBitmap(jBitmap1.GetJavaBitmap);
@@ -277,7 +277,7 @@ begin
    if (Command.Category = CATEGORY_INFORMATION) then
        if  Command.Command =
          INFO_METADATA then begin
-                         tags := DecodeMetaData(Command.Param);
+                         tags := DecodeMetaData(Command.Param, Backend.InCfg);
                          TagsToMap(tags);
                        end
        else if Command.command =
@@ -308,7 +308,7 @@ begin
                                  NewState:= TEngineState(StrToInt(Command.Param));
                                  if NewState = ENGINE_PLAY then
                                    begin
-                                      msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG, EncodeImageSize(CoverView.Width, CoverView.Height)), Backend.cfg);
+                                      msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG, EncodeImageSize(CoverView.Width, CoverView.Height)), Backend.OutCfg);
                                       Backend.Client.SendMessage(msg);
                                       bPlay.ImageUpIdentifier:='ic_pause_white_36dp';
                                       bPlay.ImageDownIdentifier:='ic_pause_grey600_36dp';

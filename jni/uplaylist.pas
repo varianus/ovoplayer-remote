@@ -69,11 +69,11 @@ begin
      begin
        jlvPlayList.Clear;
 
-       TotalCount:=StrToIntDef(ExtractField(r.param), 0);
+       TotalCount:=StrToIntDef(ExtractField(r.param, Backend.InCfg), 0);
        LogDebug('OVOVOVOVO', 'GOT PLAYLIST');
        for CurrPos:= 0 to TotalCount -1 do
          begin
-           tags := DecodeMetaData(r.Param);
+           tags := DecodeMetaData(r.Param, Backend.InCfg);
         //   LogDebug('OVOVOVOVO', DumpMetaData(Tags));
            jlvPlayList.Add(tags.Title+'|'+tags.AlbumArtist,'|', colbrDefault, 0, wgTextView, inttostr(CurrPos+1)+'.',nil);
          end;
@@ -117,7 +117,7 @@ procedure Tplaylist.jlvPlayListClickItem(Sender: TObject; itemIndex: integer;
 var
   msg:string;
 begin
-  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAY, IntToStr(ItemIndex)), Backend.cfg);
+  msg := EncodeString(BuildCommand(CATEGORY_ACTION, COMMAND_PLAY, IntToStr(ItemIndex)), Backend.OutCfg);
   backend.Client.SendMessage(msg);
 end;
 
@@ -128,7 +128,7 @@ begin
   Backend.ActiveForm:=self;
   self.UpdateLayout;
 
-  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_FULLPLAYLIST), Backend.cfg);
+  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_FULLPLAYLIST), Backend.OutCfg);
   backend.Client.SendMessage(msg);
 
 end;
