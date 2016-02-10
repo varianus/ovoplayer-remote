@@ -8,7 +8,7 @@ interface
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, Laz_And_Controls,
   Laz_And_Controls_Events, AndroidWidget, intentmanager, actionbartab,
-  tcpsocketclient, seekbar, basetag, basetypes, preferences;
+  tcpsocketclient, seekbar, basetag, basetypes, preferences, menu;
 
 type
 
@@ -21,6 +21,7 @@ type
     bPlay: jImageBtn;
     bPrev: jImageBtn;
     jActionBarTab1: jActionBarTab;
+    jMenu1: jMenu;
     pnlControls: jPanel;
     pnlInfo: jPanel;
     pnlCover: jPanel;
@@ -35,6 +36,8 @@ type
     pnlConnection: jPanel;
     Message: jTextView;
     procedure bConnectClick(Sender: TObject);
+    procedure ConnectClose(Sender: TObject);
+    procedure ConnectCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
     procedure ConnectDestroy(Sender: TObject);
     procedure ConnectJNIPrompt(Sender: TObject);
   private
@@ -52,7 +55,6 @@ implementation
 uses
    netProtocol, ubackend, uplayer;
 {$R *.lfm}
-  
 
 { TConnect }
 
@@ -66,6 +68,16 @@ begin
 
 end;
 
+procedure TConnect.ConnectClose(Sender: TObject);
+begin
+  jMenu1.Clear();  //clean up ...
+end;
+
+procedure TConnect.ConnectCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
+begin
+    jMenu1.AddItem(jObjMenu, 1000, 'Settings', 'ic_settings_white_36dp', mitDefault, misIfRoomWithText);
+end;
+
 procedure TConnect.ConnectDestroy(Sender: TObject);
 begin
  Backend.Pref.setStringData('LastAddress',edtIPAddress.Text);
@@ -73,6 +85,9 @@ end;
 
 procedure TConnect.ConnectJNIPrompt(Sender: TObject);
 begin
+ CustomColor:=$ffffffff;
+ Self.SetIconActionBar('ic_launcher');
+
   if not Assigned(Backend) then
     begin
       Backend := TBackend.Create(Nil);
@@ -81,6 +96,10 @@ begin
  Backend.ActiveForm:=self;
  self.UpdateLayout;
  edtIPAddress.text := Backend.Pref.GetStringData('LastAddress','10.0.2.2');
+
+ jMenu1.Clear();  //clean up ...
+ jMenu1.InvalidateOptionsMenu();  //fire OnCreateOptionsMenu --> OnPrepareOptionsMenu to do form2 menu ...
+
 
 end;
 

@@ -10,8 +10,10 @@ object Connect: TConnect
   OnDestroy = ConnectDestroy
   Text = 'Connect'
   ActivityMode = actMain
-  BackgroundColor = colbrDarkSlateGray
+  BackgroundColor = colbrBlack
   OnJNIPrompt = ConnectJNIPrompt
+  OnClose = ConnectClose
+  OnCreateOptionMenu = ConnectCreateOptionMenu
   object pnlConnection: jPanel
     Left = 4
     Top = 4
@@ -42,7 +44,7 @@ object Connect: TConnect
       LayoutParamHeight = lpHalfOfParent
       ImageIndex = 0
       Images = jImageList1
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrBlack
       ImageScaleType = scaleFitCenter
       Id = 6059150
     end
@@ -137,5 +139,9 @@ object Connect: TConnect
   object jActionBarTab1: jActionBarTab
     left = 65339
     top = 65353
+  end
+  object jMenu1: jMenu
+    left = 181
+    top = 363
   end
 end

@@ -8,7 +8,8 @@ interface
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, Laz_And_Controls,
   Laz_And_Controls_Events, AndroidWidget, seekbar, broadcastreceiver,
-  intentmanager, imagefilemanager, basetypes, basetag, netprotocol;
+  intentmanager, imagefilemanager, customdialog, menu, basetypes, basetag,
+  netprotocol;
 
 type
 
@@ -24,7 +25,9 @@ type
     jBroadcastReceiver1: jBroadcastReceiver;
     CoverView: jImageView;
     jIntentManager1: jIntentManager;
+    jMenu1: jMenu;
     jSeekBar1: jSeekBar;
+    jTextView1: jTextView;
     pnlControls: jPanel;
     pnlInfo: jPanel;
     pnlCover: jPanel;
@@ -36,10 +39,16 @@ type
     procedure bPlayClick(Sender: TObject);
     procedure bPrevClick(Sender: TObject);
     procedure jBroadcastReceiver1Receiver(Sender: TObject; intent: jObject);
+    procedure jCustomDialog1Show(Sender: TObject; dialog: jObject; title: string
+      );
     procedure jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
       fromUser: boolean);
     procedure jSeekBar1StartTrackingTouch(Sender: TObject; progress: integer);
     procedure jSeekBar1StopTrackingTouch(Sender: TObject; progress: integer);
+    procedure PlayerClickOptionMenuItem(Sender: TObject; jObjMenuItem: jObject;
+      itemID: integer; itemCaption: string; checked: boolean);
+    procedure PlayerClose(Sender: TObject);
+    procedure PlayerCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
     procedure PlayerJNIPrompt(Sender: TObject);
     procedure PlayerRotate(Sender: TObject; rotate: TScreenStyle);
     procedure pnlPlayerFlingGesture(Sender: TObject; flingGesture: TFlingGesture
@@ -48,6 +57,7 @@ type
   private
     FSeeking: boolean;
     msg: string;
+    fTags: TCommonTags;
     procedure DecodeImage(s: string);
     procedure TagsToMap(Tags: TCommonTags);
   public
@@ -80,7 +90,8 @@ begin
    msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_COVERIMG, EncodeImageSize(CoverView.Width, CoverView.Height)), Backend.OutCfg);
    Backend.Client.SendMessage(msg);
 
-
+   jMenu1.Clear();  //clean up ...
+   jMenu1.InvalidateOptionsMenu();  //fire OnCreateOptionsMenu --> OnPrepareOptionsMenu to do form2 menu ...
 
 end;
 
@@ -110,6 +121,33 @@ begin
 
 end;
 
+procedure TPlayer.jCustomDialog1Show(Sender: TObject; dialog: jObject;
+  title: string);
+begin
+
+  jTextView1.Text := fTags.FileName;
+  //  Artist.Text := Tags.Artist;
+  //  Album.Text := Tags.Album;
+    //album.Text := Tags.AlbumArtist;
+  //  edGenre.Caption := Tags.Genre;
+  //  Title.text := Tags.Title;
+  //  jSeekBar1.Max:= Tags.Duration;
+    //meComment.Lines.Clear;
+    //meComment.Lines.Add(Tags.Comment);
+    //
+    //i := 0;
+    //TryStrToInt(Tags.Year, i);
+    //seYear.Value := i;
+    //
+    //i := 0;
+    //TryStrToInt(Tags.TrackString, i);
+    //
+    //seTrack.Value := i;
+
+
+
+end;
+
 procedure TPlayer.jSeekBar1ProgressChanged(Sender: TObject; progress: integer;
   fromUser: boolean);
 begin
@@ -132,6 +170,38 @@ procedure TPlayer.jSeekBar1StopTrackingTouch(Sender: TObject; progress: integer
 begin
   FSeeking:= False;
   TimerPos.Enabled:=true;
+end;
+
+procedure TPlayer.PlayerClickOptionMenuItem(Sender: TObject;
+  jObjMenuItem: jObject; itemID: integer; itemCaption: string; checked: boolean
+  );
+begin
+  if itemid = 3000 then
+    begin
+        if playlist = nil then
+    begin
+      gApp.CreateForm(Tplaylist, playlist);
+      Backend.ActiveForm:= playlist;
+      playlist.Init(gApp);
+    end
+  else
+    begin
+      playlist.Show; //actRecyclable
+    end;
+
+    end;
+
+end;
+
+procedure TPlayer.PlayerClose(Sender: TObject);
+begin
+  jMenu1.Clear();  //clean up ...
+end;
+
+procedure TPlayer.PlayerCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
+begin
+   jMenu1.AddItem(jObjMenu, 3000, 'PlayList', 'ic_queue_music_white_36dp', mitDefault, misIfRoomWithText);
+
 end;
 
 procedure TPlayer.bPlayClick(Sender: TObject);
@@ -216,6 +286,7 @@ procedure TPlayer.TagsToMap(Tags:TCommonTags);
 var
   i: integer;
 begin
+  fTags := Tags;
 //  leFileName.Caption := Tags.FileName;
   Artist.Text := Tags.Artist;
   Album.Text := Tags.Album;

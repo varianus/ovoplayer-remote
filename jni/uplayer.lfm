@@ -9,9 +9,12 @@ object Player: TPlayer
   MarginBottom = 0
   Text = 'Player'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrDarkSlateGray
+  BackgroundColor = colbrBlack
   OnRotate = PlayerRotate
   OnJNIPrompt = PlayerJNIPrompt
+  OnClose = PlayerClose
+  OnCreateOptionMenu = PlayerCreateOptionMenu
+  OnClickOptionMenuItem = PlayerClickOptionMenuItem
   object pnlPlayer: jPanel
     Left = 0
     Top = 0
@@ -322,5 +325,12 @@ object Player: TPlayer
     Height = 0
     left = 264
     top = 57
+  end
+  object jMenu1: jMenu
+    Options.Strings = (
+      'Playlist'
+    )
+    left = 59
+    top = 36
   end
 end
