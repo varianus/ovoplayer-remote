@@ -109,7 +109,6 @@ begin
       playlist.Show; //actRecyclable
     end;
     self.Close;
-    LogDebug('OVOVOVOVO', 'GO To PLAYER');
 end;
 
 procedure Tplaylist.jlvPlayListClickItem(Sender: TObject; itemIndex: integer;
