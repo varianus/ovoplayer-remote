@@ -44,7 +44,7 @@ object Connect: TConnect
       LayoutParamHeight = lpHalfOfParent
       ImageIndex = 0
       Images = jImageList1
-      BackgroundColor = colbrBlack
+      BackgroundColor = colbrDefault
       ImageScaleType = scaleFitCenter
       Id = 6059150
     end
@@ -68,7 +68,7 @@ object Connect: TConnect
       InputTypeEx = itxText
       MaxTextLength = -1
       BackgroundColor = colbrDefault
-      FontColor = colbrDefault
+      FontColor = colbrWhite
       FontSize = 0
       HintTextColor = colbrSilver
       ScrollBarStyle = scrNone
@@ -92,7 +92,7 @@ object Connect: TConnect
       Visible = True
       PosRelativeToAnchor = []
       PosRelativeToParent = [rpBottom, rpCenterHorizontal]
-      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'CONNECT'
       BackgroundColor = colbrDefault
@@ -121,7 +121,7 @@ object Connect: TConnect
       Alignment = taLeft
       Enabled = True
       BackgroundColor = colbrDefault
-      FontColor = colbrDefault
+      FontColor = colbrWhite
       FontSize = 0
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault

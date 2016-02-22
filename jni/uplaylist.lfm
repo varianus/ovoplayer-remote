@@ -9,7 +9,7 @@ object playlist: Tplaylist
   MarginBottom = 0
   Text = 'Playlist'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrDarkSlateGray
+  BackgroundColor = colbrBlack
   OnJNIPrompt = playlistJNIPrompt
   OnBackButton = playlistBackButton
   object jPanel1: jPanel
@@ -42,7 +42,7 @@ object playlist: Tplaylist
       LayoutParamWidth = lpMatchParent
       LayoutParamHeight = lpMatchParent
       BackgroundColor = colbrDefault
-      FontColor = colbrDefault
+      FontColor = colbrWhite
       FontSize = 0
       WidgetItem = wgTextView
       Delimiter = '|'
@@ -50,7 +50,7 @@ object playlist: Tplaylist
       ItemLayout = layWidgetTextImage
       TextSizeDecorated = sdDecreasing
       TextAlign = alLeft
-      HighLightSelectedItemColor = colbrSlateGray
+      HighLightSelectedItemColor = colbrAquamarine
       FontSizeUnit = unitDefault
       OnClickItem = jlvPlayListClickItem
       Id = 0

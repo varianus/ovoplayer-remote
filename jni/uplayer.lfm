@@ -72,7 +72,7 @@ object Player: TPlayer
         Alignment = taLeft
         Enabled = True
         BackgroundColor = colbrDefault
-        FontColor = colbrDefault
+        FontColor = colbrWhite
         FontSize = 10
         TextTypeFace = tfNormal
         FontSizeUnit = unitScaledPixel
@@ -118,7 +118,7 @@ object Player: TPlayer
         Alignment = taLeft
         Enabled = True
         BackgroundColor = colbrDefault
-        FontColor = colbrDefault
+        FontColor = colbrWhite
         FontSize = 14
         TextTypeFace = tfNormal
         FontSizeUnit = unitScaledPixel
@@ -143,7 +143,7 @@ object Player: TPlayer
         Alignment = taLeft
         Enabled = True
         BackgroundColor = colbrDefault
-        FontColor = colbrDefault
+        FontColor = colbrWhite
         FontSize = 16
         TextTypeFace = tfNormal
         FontSizeUnit = unitScaledPixel
@@ -168,7 +168,7 @@ object Player: TPlayer
         Alignment = taLeft
         Enabled = True
         BackgroundColor = colbrDefault
-        FontColor = colbrDefault
+        FontColor = colbrWhite
         FontSize = 14
         TextTypeFace = tfNormal
         FontSizeUnit = unitScaledPixel

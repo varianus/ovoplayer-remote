@@ -77,7 +77,8 @@ uses uBackend, uplaylist, base64, netsupport;
 
 procedure TPlayer.PlayerJNIPrompt(Sender: TObject);
 begin
-   pnlPlayer.MatchParent();
+
+  pnlPlayer.MatchParent();
    Self.UpdateLayout;
    FSeeking:= False;
    jBroadcastReceiver1.Registered:=true;
