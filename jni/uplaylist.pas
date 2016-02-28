@@ -23,7 +23,7 @@ type
     procedure playlistJNIPrompt(Sender: TObject);
   private
 
-    {private declarations}
+    OldPos: integer;
   public
     procedure HandleServerMessage(smessage: String);
   end;
@@ -63,22 +63,48 @@ var
   s, Data: string;
   CurrPos, TotalCount: integer;
   NewState: TEngineState;
+var
+  tmp : TXY;
 begin
   r := SplitCommand(sMessage);
-  if (r.Category = CATEGORY_INFORMATION) and (r.Command = INFO_FULLPLAYLIST) then
+  if (r.Category = CATEGORY_INFORMATION)  then
      begin
-       jlvPlayList.Clear;
+       if (r.Command = INFO_FULLPLAYLIST) then
+       begin
+         jlvPlayList.Clear;
 
-       TotalCount:=StrToIntDef(ExtractField(r.param, Backend.InCfg), 0);
-       LogDebug('OVOVOVOVO', 'GOT PLAYLIST');
-       for CurrPos:= 0 to TotalCount -1 do
-         begin
-           tags := DecodeMetaData(r.Param, Backend.InCfg);
-        //   LogDebug('OVOVOVOVO', DumpMetaData(Tags));
-           jlvPlayList.Add(tags.Title+'|'+tags.AlbumArtist,'|', colbrDefault, 0, wgTextView, inttostr(CurrPos+1)+'.',nil);
-         end;
+         TotalCount:=StrToIntDef(ExtractField(r.param, Backend.InCfg), 0);
+         LogDebug('OVOVOVOVO', 'GOT PLAYLIST');
+         for CurrPos:= 0 to TotalCount -1 do
+           begin
+             tags := DecodeMetaData(r.Param, Backend.InCfg);
+          //   LogDebug('OVOVOVOVO', DumpMetaData(Tags));
+             jlvPlayList.Add(tags.Title+'|'+tags.AlbumArtist,'|', colbrDefault, 0, wgTextView, inttostr(CurrPos+1)+'.',nil);
+           end;
+         jlvPlayList.HighLightSelectedItem:=true;
+         jlvPlayList.HighLightSelectedItemColor:=colbrYellow;
+
+       end
+       else
+       if (r.Command = INFO_PLAYLISTINDEX) then
+       begin
+         CurrPos:= StrToIntDef(r.Param, -1);
+         if CurrPos > 0 then
+           begin
+             dec(currpos);
+             if OldPos <> -1 then
+                jlvPlayList.SetImageByIndex(nil, OldPos);
+             jlvPlayList.SetImageByIndex('ic_play_arrow_white_36dp', CurrPos);
+             OldPos:= CurrPos;
+             tmp.X:= CurrPos;
+             tmp.Y := 10;
+             jlvPlayList.setItemIndex := tmp;
+      //       jlvPlayList.SetSelectedItem(Currpos);
+           end;
+       end;
 
      end
+
   else
     Player.HandleServerMessage(smessage);
 
@@ -125,9 +151,14 @@ var
   msg:string;
 begin
   Backend.ActiveForm:=self;
+
   self.UpdateLayout;
+  OldPos := -1;
 
   msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_FULLPLAYLIST), Backend.OutCfg);
+  backend.Client.SendMessage(msg);
+
+  msg := EncodeString(BuildCommand(CATEGORY_REQUEST, INFO_PLAYLISTINDEX), Backend.OutCfg);
   backend.Client.SendMessage(msg);
 
 end;

@@ -2732,6 +2732,7 @@ class jListItemRow{
 	int textSizeDecorated;
 	int itemLayout;
 	int textAlign;
+        int backgroundColor;
 	Context ctx;
 	Bitmap bmp;
 	public  jListItemRow(Context context) {
@@ -3232,7 +3233,6 @@ setOnTouchListener(onTouchListener);
 onItemClickListener = new OnItemClickListener() {@Override
 	public void onItemClick(AdapterView <? > parent, View v, int position, long id) {
 	  if (canClick) { 
-	    	lastSelectedItem = (int) position;
 			if (!isEmpty(alist)) { // this test is necessary !  //  <----- thanks to @renabor
 				if (highLightSelectedItem) {
 					if (lastSelectedItem > -1) {
@@ -3240,6 +3240,7 @@ onItemClickListener = new OnItemClickListener() {@Override
 					}
 					DoHighlight((int) id, highLightColor);
 				}
+                         	lastSelectedItem = (int) position;
 				if (alist.get((int) id).widget == 2  ) { //radio fix 16-febr-2015
 					for (int i = 0; i < alist.size(); i++) {
 						alist.get(i).checked = false;
@@ -3582,7 +3583,9 @@ public void setWidgetCheck(boolean value, int index){
 
 private void DoHighlight(int position, int _color) {
    	alist.get(position).textColor = _color;
-    aadapter.notifyDataSetChanged();		
+    Log.i("OVOVOVOVO", "HIGHTLIGHT_"+Integer.toString(position)+"_"+Integer.toString(_color));
+
+    aadapter.notifyDataSetChanged();
 }
 
 public void SetHighLightSelectedItem(boolean _value)  {
@@ -3595,6 +3598,18 @@ public void SetHighLightSelectedItemColor(int _color)  {
 
 public int GetItemIndex() { 
   return lastSelectedItem;
+}
+
+public void SetItemIndex(int _value) {
+   Log.i("OVOVOVOVO", "SetITEM_BEFORE"+Integer.toString(lastSelectedItem));
+   if (highLightSelectedItem) {
+     if (lastSelectedItem > -1) {
+	this.DoHighlight(lastSelectedItem, textColor);
+	}
+   this.DoHighlight((int) _value, highLightColor);
+   lastSelectedItem = _value;
+   Log.i("OVOVOVOVO", "SetITEM_AFTER"+Integer.toString(lastSelectedItem));
+  }
 }
 
 public String GetItemCaption() {
@@ -11869,7 +11884,7 @@ class jGridView extends GridView /*dummy*/ { //please, fix what GUI object will 
    public int  GetItemIndex() {
 	   return lastSelectedItem;
    }
-   
+
    public String GetItemCaption() {
 	   return lastSelectedItemCaption;
    }
@@ -17045,7 +17060,8 @@ public float[] benchMark1 () {
    }
    
    public java.lang.Object jHttpClient_jCreate(long _Self) {
-	      return (java.lang.Object)(new jHttpClient(this,_Self));
+//	      return (java.lang.Object)(new jHttpClient(this,_Self));
+  	      return (java.lang.Object)(null);
    }
   
    public java.lang.Object jShellCommand_jCreate(long _Self) {

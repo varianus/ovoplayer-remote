@@ -50,7 +50,7 @@ object playlist: Tplaylist
       ItemLayout = layWidgetTextImage
       TextSizeDecorated = sdDecreasing
       TextAlign = alLeft
-      HighLightSelectedItemColor = colbrAquamarine
+      HighLightSelectedItemColor = colbrYellow
       FontSizeUnit = unitDefault
       OnClickItem = jlvPlayListClickItem
       Id = 0
