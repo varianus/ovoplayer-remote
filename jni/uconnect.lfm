@@ -11,6 +11,7 @@ object Connect: TConnect
   Text = 'Connect'
   ActivityMode = actMain
   BackgroundColor = colbrBlack
+  ActionBarTitle = abtDefault
   OnJNIPrompt = ConnectJNIPrompt
   OnClose = ConnectClose
   OnCreateOptionMenu = ConnectCreateOptionMenu

@@ -20,8 +20,11 @@
     <VersionInfo>
       <StringTable ProductVersion=""/>
     </VersionInfo>
-    <CustomData Count="1">
+    <CustomData Count="4">
       <Item0 Name="LAMW" Value="GUI"/>
+      <Item1 Name="NdkPath" Value="/home/varianus/Android/android-ndk-r10e"/>
+      <Item2 Name="Package" Value="org.varianus.ovoplayer_remote"/>
+      <Item3 Name="SdkPath" Value="/home/varianus/Android/Sdk"/>
     </CustomData>
     <BuildModes Count="2">
       <Item1 Name="X86" Default="True"/>

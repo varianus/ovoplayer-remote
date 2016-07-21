@@ -10,6 +10,7 @@ object Player: TPlayer
   Text = 'Player'
   ActivityMode = actRecyclable
   BackgroundColor = colbrBlack
+  ActionBarTitle = abtDefault
   OnRotate = PlayerRotate
   OnJNIPrompt = PlayerJNIPrompt
   OnClose = PlayerClose
@@ -55,9 +56,9 @@ object Player: TPlayer
       Id = 2186461
       object TVCurrPos: jTextView
         Left = 5
-        Top = 97
-        Width = 42
-        Height = 15
+        Top = 102
+        Width = 44
+        Height = 16
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
@@ -80,7 +81,7 @@ object Player: TPlayer
       end
       object jSeekBar1: jSeekBar
         Left = 10
-        Top = 127
+        Top = 133
         Width = 318
         Height = 23
         MarginLeft = 10
@@ -103,8 +104,8 @@ object Player: TPlayer
       object Artist: jTextView
         Left = 5
         Top = 5
-        Width = 30
-        Height = 20
+        Width = 32
+        Height = 21
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
@@ -126,9 +127,9 @@ object Player: TPlayer
       end
       object Title: jTextView
         Left = 5
-        Top = 35
-        Width = 30
-        Height = 22
+        Top = 36
+        Width = 32
+        Height = 25
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
@@ -151,9 +152,9 @@ object Player: TPlayer
       end
       object Album: jTextView
         Left = 5
-        Top = 67
+        Top = 71
         Width = 39
-        Height = 20
+        Height = 21
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
