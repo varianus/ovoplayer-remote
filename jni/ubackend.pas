@@ -66,7 +66,7 @@ procedure TBackend.ClientConnected(Sender: TObject);
 begin
 
   ConnectTest.Enabled:=False;
-  Client.SendMessage(EncodeString(BuildCommand(CATEGORY_CONFIG, COMMAND_SIZEMODE, '0'),OutCfg));
+  Client.SendMessage(EncodeString(BuildCommand(CATEGORY_CONFIG, COMMAND_SIZEMODE, '1'),OutCfg));
   Connect.OnConnectResult(true);
 
 

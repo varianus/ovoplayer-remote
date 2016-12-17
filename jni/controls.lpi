@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <General>
       <Flags>
         <MainUnitHasCreateFormStatements Value="False"/>
@@ -17,14 +17,12 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
-    <CustomData Count="4">
+    <CustomData Count="5">
       <Item0 Name="LAMW" Value="GUI"/>
-      <Item1 Name="NdkPath" Value="/home/varianus/Android/android-ndk-r10e"/>
-      <Item2 Name="Package" Value="org.varianus.ovoplayer_remote"/>
-      <Item3 Name="SdkPath" Value="/home/varianus/Android/Sdk"/>
+      <Item1 Name="LamwVersion" Value="0.7"/>
+      <Item2 Name="NdkPath" Value="/home/varianus/Android/android-ndk-r10e/"/>
+      <Item3 Name="Package" Value="org.varianus.ovoplayer_remote"/>
+      <Item4 Name="SdkPath" Value="/home/varianus/Android/Sdk/"/>
     </CustomData>
     <BuildModes Count="2">
       <Item1 Name="X86" Default="True"/>
@@ -35,7 +33,7 @@
             <Filename Value="../libs/armeabi-v7a/libcontrols"/>
           </Target>
           <SearchPaths>
-            <Libraries Value="../../../Android/android-ndk-r10e/platforms/android-21/arch-arm/usr/lib"/>
+            <Libraries Value="/home/varianus/Android/android-ndk-r10e/platforms/android-21/arch-arm/usr/lib/;/home/varianus/Android/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/lib/gcc/arm-linux-androideabi/4.9/"/>
             <OtherUnitFiles Value="../../ovoplayer/trunk/src;../../ovoplayer/trunk/src/ovotag"/>
             <UnitOutputDirectory Value="../obj/controls"/>
           </SearchPaths>
@@ -65,7 +63,7 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-Xd"/>
+            <CustomOptions Value="-Xd -CfVFPv3 -CpARMV7A -XParm-linux-androideabi- -FD/home/varianus/Android/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin"/>
           </Other>
         </CompilerOptions>
       </Item2>
@@ -94,12 +92,18 @@
         <ComponentName Value="Connect"/>
         <HasResources Value="True"/>
         <UnitName Value="UConnect"/>
+        <CustomData Count="1">
+          <Item0 Name="jControls" Value="jActionBarTab;jButton;jEditText;jImageView;jMenu;jPanel;jTextView"/>
+        </CustomData>
       </Unit1>
       <Unit2>
         <Filename Value="uplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Player"/>
         <HasResources Value="True"/>
+        <CustomData Count="1">
+          <Item0 Name="jControls" Value="jBitmap;jBroadcastReceiver;jImageBtn;jImageView;jIntentManager;jMenu;jPanel;jSeekBar;jTextView;jTimer"/>
+        </CustomData>
       </Unit2>
       <Unit3>
         <Filename Value="ubackend.pas"/>
@@ -107,12 +111,18 @@
         <ComponentName Value="Backend"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
+        <CustomData Count="1">
+          <Item0 Name="jControls" Value="jPreferences;jTCPSocketClient;jTimer"/>
+        </CustomData>
       </Unit3>
       <Unit4>
         <Filename Value="uplaylist.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="playlist"/>
         <HasResources Value="True"/>
+        <CustomData Count="1">
+          <Item0 Name="jControls" Value="jListView;jPanel"/>
+        </CustomData>
       </Unit4>
     </Units>
   </ProjectOptions>
@@ -152,7 +162,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-Xd -XPi686-linux-android- -FD/home/varianus/Android/android-ndk-r10e/toolchains/x86-4.9/prebuilt/linux-x86_64/bin"/>
+      <CustomOptions Value="-Xd -XPi686-linux-android- -FD/home/varianus/Android/android-ndk-r10e//toolchains/x86-4.9/prebuilt/linux-x86_64/bin"/>
     </Other>
   </CompilerOptions>
   <Debugging>
